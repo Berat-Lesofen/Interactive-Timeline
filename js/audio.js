@@ -1,27 +1,171 @@
 /**
  * Türk Tarihi — Zamanın İzinde
- * Sinematik Web Audio API Ambiyans ve Bozkır Ses Motoru
+ * Sinematik Web Audio API Ambiyans, Bozkır Ses ve Müzik Motoru
  * 
  * Özellikler:
- * 1. Sıfır dış dosya / sıfır telif riski: %100 Web Audio API sentezleyicisi
- * 2. Varsayılan olarak AÇIK ve düşük seviyeli (%20-25 sinematik ses)
- * 3. Tarayıcı autoplay politikası ile tam uyumlu: İlk kullanıcı etkileşiminde (scroll, click, keydown)
- *    rahatsız edici popup göstermeden pürüzsüzce başlar.
- * 4. Çok katmanlı bozkır atmosferi:
+ * 1. Katmanlı Bozkır Atmosferi:
  *    - Katman 1: Pembe gürültü ve LFO ile dalgalanan bozkır rüzgârı (Steppe Wind)
  *    - Katman 2: Çift osilatörlü sıcak kök uğultusu (Root Drone)
  *    - Katman 3: Altai bozkır gırtlak ezgisi / sygyt harmonik tınısı (Throat Singing Shimmer)
- *    - Katman 4: Dönem geçişlerinde antik bronz çan / singing bowl tınısı
- * 5. 18 döneme göre yumuşakça değişen tonal merkez ve filtre renkleri (Dynamic Epoch Soundscapes)
+ *    - Katman 4: Kesintisiz A/B crossfade döngülü "Nomadic Spirit" fon müziği (MP3 %10-15 seviye)
+ *    - Katman 5: Dönem geçişlerinde antik bronz çan / singing bowl tınısı
+ * 2. Varsayılan olarak KAPALI: Kullanıcı "Ambiyans Sesi" butonuna bastığında tüm katmanlar birlikte başlar.
+ * 3. Tekrar basıldığında pürüzsüz fade-out ile hepsi birlikte sessize alınır.
+ * 4. 18 döneme göre yumuşakça değişen tonal merkez ve filtre renkleri (Dynamic Epoch Soundscapes)
  */
+
+/**
+ * Kesintisiz (Gapless / Clickless) MP3 Fon Müziği Döngü Motoru
+ * 
+ * Çift kanallı (A/B) ses nesnesi ve çapraz geçiş (crossfade) mimarisi ile
+ * MP3 döngü geçişlerindeki olası tıklamaları / sessizlik boşluklarını sıfırlar.
+ */
+class SeamlessMusicLoop {
+  constructor(src, targetVolume = 0.12) {
+    this.src = src;
+    this.targetVolume = targetVolume;
+    this.crossfadeDuration = 1.6; // 1.6 saniye yumuşak çapraz geçiş
+    this.isPlaying = false;
+    this.currentTrackIndex = 0;
+    this.monitorInterval = null;
+    this.isCrossfading = false;
+
+    // A ve B ses nesneleri
+    this.trackA = new Audio(src);
+    this.trackB = new Audio(src);
+
+    this.trackA.preload = "auto";
+    this.trackB.preload = "auto";
+    this.trackA.volume = 0;
+    this.trackB.volume = 0;
+
+    // Yedek olarak parça sonu dinleyicisi
+    this.trackA.addEventListener("ended", () => this.handleTrackEnded(0));
+    this.trackB.addEventListener("ended", () => this.handleTrackEnded(1));
+  }
+
+  play(fadeInDuration = 1.0) {
+    this.isPlaying = true;
+    const active = this.currentTrackIndex === 0 ? this.trackA : this.trackB;
+
+    const playPromise = active.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        this.fadeTo(active, this.targetVolume, fadeInDuration);
+        this.startMonitor();
+      }).catch(err => {
+        console.warn("Müzik başlatılamadı:", err);
+      });
+    }
+  }
+
+  stop(fadeOutDuration = 0.8) {
+    this.isPlaying = false;
+    this.stopMonitor();
+
+    this.fadeTo(this.trackA, 0, fadeOutDuration, () => {
+      this.trackA.pause();
+    });
+    this.fadeTo(this.trackB, 0, fadeOutDuration, () => {
+      this.trackB.pause();
+    });
+  }
+
+  startMonitor() {
+    this.stopMonitor();
+    this.monitorInterval = setInterval(() => {
+      if (!this.isPlaying || this.isCrossfading) return;
+
+      const active = this.currentTrackIndex === 0 ? this.trackA : this.trackB;
+      const next = this.currentTrackIndex === 0 ? this.trackB : this.trackA;
+
+      if (active.duration && active.duration > this.crossfadeDuration * 2) {
+        if (active.currentTime >= active.duration - this.crossfadeDuration) {
+          this.performCrossfade(active, next);
+        }
+      }
+    }, 100);
+  }
+
+  stopMonitor() {
+    if (this.monitorInterval) {
+      clearInterval(this.monitorInterval);
+      this.monitorInterval = null;
+    }
+  }
+
+  performCrossfade(outgoingTrack, incomingTrack) {
+    this.isCrossfading = true;
+    this.currentTrackIndex = this.currentTrackIndex === 0 ? 1 : 0;
+
+    incomingTrack.currentTime = 0;
+    incomingTrack.volume = 0;
+
+    const playPromise = incomingTrack.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        this.fadeTo(incomingTrack, this.targetVolume, this.crossfadeDuration, () => {
+          this.isCrossfading = false;
+        });
+        this.fadeTo(outgoingTrack, 0, this.crossfadeDuration, () => {
+          outgoingTrack.pause();
+          outgoingTrack.currentTime = 0;
+        });
+      }).catch(() => {
+        this.isCrossfading = false;
+      });
+    } else {
+      this.isCrossfading = false;
+    }
+  }
+
+  handleTrackEnded(trackIdx) {
+    if (!this.isPlaying) return;
+    if (this.currentTrackIndex === trackIdx) {
+      const next = trackIdx === 0 ? this.trackB : this.trackA;
+      this.currentTrackIndex = trackIdx === 0 ? 1 : 0;
+      next.currentTime = 0;
+      next.volume = this.targetVolume;
+      next.play().catch(() => {});
+    }
+  }
+
+  fadeTo(audio, targetVolume, duration = 1.0, onComplete) {
+    if (audio._fadeTimer) {
+      clearInterval(audio._fadeTimer);
+      audio._fadeTimer = null;
+    }
+
+    const startVol = audio.volume;
+    const startTime = performance.now();
+    const durationMs = Math.max(30, duration * 1000);
+
+    audio._fadeTimer = setInterval(() => {
+      const elapsed = performance.now() - startTime;
+      const progress = Math.min(1, elapsed / durationMs);
+
+      audio.volume = Math.max(0, Math.min(1, startVol + (targetVolume - startVol) * progress));
+
+      if (progress >= 1) {
+        clearInterval(audio._fadeTimer);
+        audio._fadeTimer = null;
+        audio.volume = targetVolume;
+        if (onComplete) onComplete();
+      }
+    }, 40);
+  }
+}
 
 class MuseumAudioEngine {
   constructor() {
     this.audioCtx = null;
-    this.isMuted = false;          // Varsayılan olarak AÇIK
-    this.isInitialized = false;     // AudioContext başladı mı?
-    this.masterGainValue = 0.22;    // %22 sinematik başlangıç seviyesi
+    this.isMuted = true;           // Varsayılan olarak KAPALI
+    this.isInitialized = false;    // AudioContext başladı mı?
+    this.masterGainValue = 0.22;   // %22 sinematik başlangıç seviyesi
     this.lastChimeTime = 0;
+
+    // Müzik Katmanı (%12 seviyesinde 'Nomadic Spirit')
+    this.musicLayer = new SeamlessMusicLoop("assets/audio/nomadic-spirit.mp3", 0.12);
 
     // DOM Elemanları
     this.toggleBtn = document.getElementById("audio-toggle-btn");
@@ -76,33 +220,15 @@ class MuseumAudioEngine {
   }
 
   init() {
-    // 1. Buton UI Başlangıç Durumu (Varsayılan Açık)
-    this.updateUI(true);
+    // 1. Buton UI Başlangıç Durumu (Varsayılan Kapalı)
+    this.updateUI(false);
 
-    // 2. Buton Tıklama (Mute / Unmute Geçişi)
+    // 2. Buton Tıklama (Açma / Kapatma Geçişi)
     if (this.toggleBtn) {
       this.toggleBtn.addEventListener("click", () => {
         this.toggleMute();
       });
     }
-
-    // 3. Autoplay Politikası: İlk Kullanıcı Etkileşiminde Sessizce Başlat
-    this.setupAutoplayListener();
-  }
-
-  setupAutoplayListener() {
-    const startOnGesture = () => {
-      if (!this.isMuted && !this.isInitialized) {
-        this.startEngine();
-      }
-      // Dinleyicileri temizle
-      events.forEach(evt => window.removeEventListener(evt, startOnGesture));
-    };
-
-    const events = ["click", "scroll", "keydown", "touchstart", "wheel", "pointerdown"];
-    events.forEach(evt => {
-      window.addEventListener(evt, startOnGesture, { once: true, passive: true });
-    });
   }
 
   ensureContext() {
@@ -135,8 +261,8 @@ class MuseumAudioEngine {
     // Master Gain
     this.masterGain = this.audioCtx.createGain();
     this.masterGain.gain.setValueAtTime(0.0001, t);
-    // 2 saniye içinde %22 seviyesine yumuşakça ramp et
-    this.masterGain.gain.exponentialRampToValueAtTime(this.masterGainValue, t + 2.2);
+    // 1.8 saniye içinde %22 seviyesine yumuşakça ramp et
+    this.masterGain.gain.exponentialRampToValueAtTime(this.masterGainValue, t + 1.8);
     this.masterGain.connect(this.compressor);
 
     // --- KATMAN 1: BOZKIR RÜZGÂRI ---
@@ -148,6 +274,11 @@ class MuseumAudioEngine {
     // --- KATMAN 3: GIRTLAK EZGİSİ / ALTAI ŞİMMER ---
     this.buildThroatLayer(t);
 
+    // --- KATMAN 4: NOMADIC SPIRIT MP3 MÜZİK KATMANI ---
+    if (this.musicLayer) {
+      this.musicLayer.play(1.5);
+    }
+
     this.isInitialized = true;
     this.isMuted = false;
     this.updateUI(true);
@@ -155,7 +286,7 @@ class MuseumAudioEngine {
     // İlk açılışta çok zarif bir başlangıç çanı çal
     setTimeout(() => {
       this.playChime(440);
-    }, 400);
+    }, 350);
   }
 
   buildWindLayer(t) {
@@ -293,6 +424,9 @@ class MuseumAudioEngine {
         this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, t);
         this.masterGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
       }
+      if (this.musicLayer) {
+        this.musicLayer.stop(0.6);
+      }
       this.updateUI(false);
     } else {
       // Sesi aç (Fade in)
@@ -300,6 +434,9 @@ class MuseumAudioEngine {
       if (this.masterGain) {
         this.masterGain.gain.setValueAtTime(0.0001, t);
         this.masterGain.gain.exponentialRampToValueAtTime(this.masterMasterLevel(), t + 0.8);
+      }
+      if (this.musicLayer) {
+        this.musicLayer.play(0.8);
       }
       this.updateUI(true);
       this.playChime(440);
