@@ -276,9 +276,9 @@ class HistoricalTimelineEngine {
       scrubberFill.style.height = `${fillPercent}%`;
     }
 
-    // 5. Ses Efekti (Opsiyonel Çan)
-    if (triggerSound && this.audio) {
-      this.audio.playChime();
+    // 5. Dönem Ambiyansı ve Geçiş Tınısı
+    if (this.audio) {
+      this.audio.setEpoch(epoch, triggerSound);
     }
   }
 

@@ -202,6 +202,12 @@ body {
   border-color: var(--gold-light);
   color: var(--gold-light);
   background: rgba(212, 175, 55, 0.15);
+  box-shadow: 0 0 12px var(--gold-glow);
+}
+
+.hud-btn:not(.active) {
+  opacity: 0.82;
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 /* ==========================================================================
