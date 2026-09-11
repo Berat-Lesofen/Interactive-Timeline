@@ -68,6 +68,20 @@ class HistoricalTimelineEngine {
             <h3 class="epoch-subtitle">${epoch.subtitle}</h3>
           </header>
 
+          <!-- KOMPAKT HARİTA (Masaüstünde display: none, mobilde hiyerarşik mini tarih haritası) -->
+          <div class="epoch-compact-map-wrapper" data-epoch-id="${epoch.id}">
+            <div class="compact-map-header-bar">
+              <span class="compact-map-region">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                ${epoch.geography?.regionName || 'Avrasya Coğrafyası'}
+              </span>
+              ${epoch.geography?.capitalOrCenter ? `<span class="compact-map-center">Merkez: <strong>${epoch.geography.capitalOrCenter}</strong></span>` : ''}
+            </div>
+            <div class="compact-map-viewport" id="compact-map-${epoch.id}">
+              ${window.InteractiveHistoricalMap ? window.InteractiveHistoricalMap.getCompactMapMarkup(epoch) : ''}
+            </div>
+          </div>
+
           <p class="epoch-lead">${epoch.lead}</p>
 
           <!-- 3 Sütunlu Özet Grid'i -->
@@ -152,8 +166,17 @@ class HistoricalTimelineEngine {
       btn.addEventListener("click", (e) => {
         const epochId = btn.dataset.epochId;
         const epoch = this.epochs.find(item => item.id === epochId);
-        if (epoch && this.map) {
-          this.map.setEpoch(epoch);
+        if (epoch) {
+          if (this.map && window.innerWidth > 1024) {
+            this.map.setEpoch(epoch);
+          } else if (window.InteractiveHistoricalMap) {
+            window.InteractiveHistoricalMap.animateCompactMap(epoch.id);
+            const slot = document.getElementById(`compact-map-${epoch.id}`);
+            if (slot) {
+              slot.classList.add("focus-pulse");
+              setTimeout(() => slot.classList.remove("focus-pulse"), 600);
+            }
+          }
         }
       });
     });
@@ -246,6 +269,11 @@ class HistoricalTimelineEngine {
     document.querySelectorAll(".epoch-card").forEach((card, i) => {
       card.classList.toggle("active", i === index);
     });
+
+    // 1.1. Mobil Kompakt Harita Senkronizasyonu & Sinematik Odaklanması
+    if (window.InteractiveHistoricalMap && epoch) {
+      window.InteractiveHistoricalMap.animateCompactMap(epoch.id);
+    }
 
     // 2. Sabit Sahne Bilgilerini Güncelle
     if (this.stageBadge) this.stageBadge.textContent = epoch.periodBadge;

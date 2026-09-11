@@ -10,6 +10,124 @@
  * 4. Sinematik kamera: Dönemler arası yumuşak pan & zoom (SVG viewBox interpolasyonu).
  * 5. Kullanıcı kontrolleri: Mouse/Touch ile sürükleme (drag), tekerlek ile zoom, Zoom +/- ve Reset.
  */
+const EURASIA_COMPACT_GEOGRAPHY_SVG = `
+  <!-- AVRASYA VE ANADOLU ANA KARA KÜTLESİ -->
+  <g class="map-landmass-layer">
+    <path class="map-land-base" d="
+      M 60,380 
+      C 75,360 85,340 105,320 
+      C 125,300 135,270 145,245 
+      C 155,225 185,210 215,200 
+      C 240,195 260,170 275,140 
+      C 285,120 320,110 380,105 
+      C 500,95 650,90 850,85 
+      C 1000,85 1120,95 1180,110 
+      L 1180,520 
+      C 1140,510 1080,480 1040,460 
+      C 980,440 920,450 860,460 
+      C 800,470 760,490 710,510 
+      C 650,525 580,510 520,490 
+      C 470,480 430,465 390,460 
+      C 340,460 280,475 230,470 
+      C 180,465 140,440 100,430 
+      C 70,420 55,400 60,380 Z
+    " />
+    <!-- AKDENİZ VE EGE SU BOŞLUĞU -->
+    <path class="map-inland-sea" d="
+      M 60,385 
+      C 110,380 160,350 195,335 
+      C 215,325 210,355 228,380 
+      C 235,395 220,405 215,410 
+      C 225,412 245,390 252,368 
+      C 260,345 250,325 270,335 
+      C 285,345 292,370 305,385 
+      C 315,395 328,385 325,365 
+      C 322,345 340,335 345,325 
+      C 350,335 340,355 352,368 
+      C 365,380 405,372 445,368 
+      C 460,365 448,390 445,415 
+      C 440,440 400,445 365,440 
+      C 300,430 220,440 150,430 
+      C 100,420 70,405 60,385 Z
+    " />
+    <ellipse cx="335" cy="402" rx="16" ry="4" class="map-land-base" />
+    <ellipse cx="420" cy="380" rx="14" ry="5" class="map-land-base" />
+    <!-- KARADENİZ -->
+    <path class="map-inland-sea" d="
+      M 367,300 
+      C 355,290 350,274 353,258 
+      C 356,248 368,245 378,243 
+      C 388,242 396,240 405,240 
+      C 408,243 410,248 412,254 
+      C 408,260 412,266 418,270 
+      C 426,273 435,269 442,262 
+      C 442,252 440,245 444,238 
+      C 452,233 462,233 468,236 
+      C 466,245 456,252 448,260 
+      C 455,268 470,282 482,298 
+      C 485,304 478,311 468,312 
+      C 452,310 435,306 422,305 
+      C 414,307 410,295 404,296 
+      C 396,298 392,305 385,306 
+      C 376,305 372,302 367,300 Z
+    " />
+    <!-- HAZAR DENİZİ -->
+    <path class="map-inland-sea" d="
+      M 525,232 
+      C 517,236 514,244 515,254 
+      C 517,266 520,275 524,286 
+      C 526,293 534,297 542,298 
+      C 544,301 535,305 530,310 
+      C 525,320 526,332 530,342 
+      C 538,348 554,348 562,340 
+      C 566,330 562,315 558,306 
+      C 555,300 565,296 567,286 
+      C 565,280 556,282 552,284 
+      C 548,276 544,265 538,255 
+      C 535,245 532,236 525,232 Z
+    " />
+    <!-- ARAL GÖLÜ -->
+    <ellipse cx="628" cy="265" rx="16" ry="22" class="map-inland-sea" />
+    <!-- BALKAŞ GÖLÜ -->
+    <path class="map-lake" d="
+      M 735,248 
+      Q 760,236 786,246 
+      Q 762,243 735,248 Z
+    " />
+    <!-- BAYKAL GÖLÜ -->
+    <path class="map-lake" d="
+      M 996,192 
+      C 1002,176 1012,155 1024,138 
+      C 1022,154 1014,174 1006,190 Z
+    " />
+  </g>
+  <!-- ÖNEMLİ NEHİRLER -->
+  <g class="map-rivers-layer">
+    <path class="map-river-path" d="M 225,235 C 255,232 272,226 288,235 C 302,244 318,266 338,262 C 352,258 362,252 372,246" />
+    <path class="map-river-path" d="M 455,135 C 485,160 515,185 508,210 C 504,225 516,232 525,232" />
+    <path class="map-river-path" d="M 382,155 C 392,185 402,210 395,240" />
+    <path class="map-river-path" d="M 745,285 C 720,272 675,262 636,252" />
+    <path class="map-river-path" d="M 705,330 C 670,315 640,302 624,282" />
+    <path class="map-river-path" d="M 952,242 C 966,228 978,212 998,190" />
+  </g>
+  <!-- DAĞ KUŞAKLARI -->
+  <g class="map-mountains-layer">
+    <path class="map-mountain-ridge" d="M 285,205 C 320,195 345,215 348,245" />
+    <path class="map-mountain-ridge" d="M 465,278 C 485,272 505,274 522,284" />
+    <path class="map-mountain-ridge" d="M 375,348 C 410,344 445,346 468,340" />
+    <path class="map-mountain-ridge" d="M 735,282 C 765,278 795,282 822,295" />
+    <path class="map-mountain-ridge" d="M 825,215 C 848,198 870,188 895,182" />
+    <path class="map-mountain-ridge" d="M 575,105 L 580,215" />
+  </g>
+  <!-- BOZKIR KUŞAĞI -->
+  <g class="map-steppe-belt" opacity="0.45">
+    <path class="map-steppe-corridor" d="
+      M 285,235 
+      C 380,225 500,215 620,220 
+      C 750,225 880,210 1020,215
+    " />
+  </g>
+`;
 
 class InteractiveHistoricalMap {
   constructor(containerId) {
@@ -500,13 +618,14 @@ class InteractiveHistoricalMap {
   }
 
   /**
-   * Manuel Sürükleme (Drag to Pan) ve Tekerlek Zoom Kontrolleri
+   * Manuel Sürükleme (Drag to Pan) ve Tekerlek Zoom Kontrolleri (Masaüstü Odaklı)
    */
   bindMouseDragAndZoom() {
     if (!this.svgElement) return;
 
-    // Mouse Drag
+    // Mouse Drag (Sadece masaüstü ekranlarda)
     this.svgElement.addEventListener("mousedown", (e) => {
+      if (window.innerWidth <= 1024) return;
       if (e.button !== 0) return; // Yalnızca sol tık
       this.isDragging = true;
       this.dragStart = { x: e.clientX, y: e.clientY };
@@ -515,7 +634,7 @@ class InteractiveHistoricalMap {
     });
 
     window.addEventListener("mousemove", (e) => {
-      if (!this.isDragging) return;
+      if (!this.isDragging || window.innerWidth <= 1024) return;
       const dx = e.clientX - this.dragStart.x;
       const dy = e.clientY - this.dragStart.y;
 
@@ -535,8 +654,9 @@ class InteractiveHistoricalMap {
       this.isDragging = false;
     });
 
-    // Touch Drag
+    // Touch Drag (Mobilde sayfa akışını bozmamak için touch pan devre dışı)
     this.svgElement.addEventListener("touchstart", (e) => {
+      if (window.innerWidth <= 1024) return;
       if (e.touches.length === 1) {
         this.isDragging = true;
         this.dragStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
@@ -546,7 +666,7 @@ class InteractiveHistoricalMap {
     }, { passive: true });
 
     window.addEventListener("touchmove", (e) => {
-      if (!this.isDragging || e.touches.length !== 1) return;
+      if (window.innerWidth <= 1024 || !this.isDragging || e.touches.length !== 1) return;
       const dx = e.touches[0].clientX - this.dragStart.x;
       const dy = e.touches[0].clientY - this.dragStart.y;
 
@@ -566,8 +686,9 @@ class InteractiveHistoricalMap {
       this.isDragging = false;
     });
 
-    // Tekerlek ile Zoom
+    // Tekerlek ile Zoom (Masaüstü)
     this.container.addEventListener("wheel", (e) => {
+      if (window.innerWidth <= 1024) return;
       e.preventDefault();
       this.hideTooltip();
 
@@ -630,6 +751,126 @@ class InteractiveHistoricalMap {
         }
       });
     }
+  }
+
+  /**
+   * Mobil Kompakt Harita SVG Markup Üreticisi
+   * 16:9 oranında, her dönem kartının hiyerarşik akışında sergilenen optimize edilmiş mini tarih haritası
+   */
+  static getCompactMapMarkup(epoch) {
+    if (!epoch || !epoch.geography) return "";
+
+    const cam = epoch.geography.camera || { center: { x: 600, y: 325 }, zoom: 1.1 };
+    const zoom = cam.zoom || 1.1;
+    const center = cam.center || { x: 600, y: 325 };
+    const targetW = Math.round(Math.max(350, Math.min(1200, 1200 / zoom)));
+    const targetH = Math.round(Math.max(200, Math.min(650, 650 / zoom)));
+    const targetX = Math.round(Math.max(0, Math.min(1200 - targetW, center.x - targetW / 2)));
+    const targetY = Math.round(Math.max(0, Math.min(650 - targetH, center.y - targetH / 2)));
+
+    // Göç / Sefer Rotaları
+    const routesHtml = (epoch.geography.routes || []).map(r => {
+      const d = r.path || (r.from && r.to ? `M ${r.from.x},${r.from.y} Q ${(r.from.x + r.to.x)/2},${(r.from.y + r.to.y)/2 - 25} ${r.to.x},${r.to.y}` : "");
+      return `<path class="compact-route-line" d="${d}" />`;
+    }).join("");
+
+    // En kritik 2–3 merkez (etiket çakışmasını engellemek için mobilde filtrelenir)
+    const places = (epoch.geography.keyPlaces || []).slice(0, 3);
+    const placesHtml = places.map(p => {
+      const isCapital = p.type === "capital";
+      return `
+        <g class="compact-place-node ${p.type || ''}" transform="translate(${p.x}, ${p.y})">
+          <circle class="compact-place-pulse" r="4" />
+          <circle class="compact-place-dot" r="${isCapital ? '5' : '3.5'}" />
+          <text class="compact-place-label" y="-9" text-anchor="middle">${p.name}</text>
+        </g>
+      `;
+    }).join("");
+
+    return `
+      <svg class="compact-historical-svg" id="compact-svg-${epoch.id}"
+           viewBox="${targetX} ${targetY} ${targetW} ${targetH}"
+           data-target-x="${targetX}" data-target-y="${targetY}"
+           data-target-w="${targetW}" data-target-h="${targetH}"
+           xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <radialGradient id="compactGlow-${epoch.id}" cx="50%" cy="50%" r="65%">
+            <stop offset="0%" stop-color="#d4af37" stop-opacity="0.38" />
+            <stop offset="70%" stop-color="#a67c1e" stop-opacity="0.15" />
+            <stop offset="100%" stop-color="#07090e" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+
+        <!-- Su Arka Planı -->
+        <rect class="map-water-bg" width="1200" height="650" />
+
+        <!-- Meridyen Kılavuzları -->
+        <g class="map-graticules" opacity="0.18">
+          <line x1="0" y1="200" x2="1200" y2="200" class="map-graticule-line" />
+          <line x1="0" y1="350" x2="1200" y2="350" class="map-graticule-line" />
+          <line x1="0" y1="500" x2="1200" y2="500" class="map-graticule-line" />
+          <line x1="300" y1="0" x2="300" y2="650" class="map-graticule-line" />
+          <line x1="600" y1="0" x2="600" y2="650" class="map-graticule-line" />
+          <line x1="900" y1="0" x2="900" y2="650" class="map-graticule-line" />
+        </g>
+
+        <!-- Avrasya Temel Coğrafi Vektörleri -->
+        ${EURASIA_COMPACT_GEOGRAPHY_SVG}
+
+        <!-- Dönemin Tarihsel Etki Alanı -->
+        <g class="compact-influence-group">
+          <path class="compact-influence-territory" style="fill: url(#compactGlow-${epoch.id});" d="${epoch.geography.territoryPath || ''}" />
+        </g>
+
+        <!-- Göç ve Sefer Hatları -->
+        <g class="compact-routes-group">
+          ${routesHtml}
+        </g>
+
+        <!-- Stratejik Merkezler (Maksimum 2-3) -->
+        <g class="compact-places-group">
+          ${placesHtml}
+        </g>
+      </svg>
+    `;
+  }
+
+  /**
+   * Mobil Kompakt Harita Sinematik Odak Animasyonu (400–450ms)
+   */
+  static animateCompactMap(epochId) {
+    const svg = document.getElementById(`compact-svg-${epochId}`);
+    if (!svg) return;
+
+    const targetX = parseFloat(svg.getAttribute("data-target-x") || "0");
+    const targetY = parseFloat(svg.getAttribute("data-target-y") || "0");
+    const targetW = parseFloat(svg.getAttribute("data-target-w") || "1200");
+    const targetH = parseFloat(svg.getAttribute("data-target-h") || "650");
+
+    // Hafif ve zarif bir pan başlangıcı (16px x, 8px y)
+    const startX = targetX + 16;
+    const startY = targetY + 8;
+    const duration = 420; // 400-500ms akıcı mobil odaklanma
+    const startTime = performance.now();
+
+    const step = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, elapsed / duration);
+      // Pürüzsüz ease-out interpolasyonu
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const curX = startX + (targetX - startX) * ease;
+      const curY = startY + (targetY - startY) * ease;
+
+      svg.setAttribute("viewBox", `${curX.toFixed(1)} ${curY.toFixed(1)} ${targetW} ${targetH}`);
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        svg.setAttribute("viewBox", `${targetX} ${targetY} ${targetW} ${targetH}`);
+      }
+    };
+
+    requestAnimationFrame(step);
   }
 }
 
