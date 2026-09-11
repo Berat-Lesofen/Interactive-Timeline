@@ -20,11 +20,18 @@ const HISTORICAL_EPOCHS = [
     geography: {
       focus: "steppes-central",
       regionName: "Karadeniz'in Kuzeyi, Kafkaslar, Tanrı Dağları & Altay Bozkırları",
-      capitalOrCenter: "Ötüken ve Çu-İli Vadisi Havzası",
-      territoryPath: "M 280,240 Q 360,210 460,230 Q 560,220 660,250 Q 640,290 520,300 Q 380,310 270,270 Z",
-      centerCoords: { x: 470, y: 250 },
+      capitalOrCenter: "Çu-İli Vadisi & Avrasya Bozkır Kuşağı",
+      camera: { center: { x: 620, y: 240 }, zoom: 1.15 },
+      territoryPath: "M 330,240 C 370,225 430,220 500,215 C 600,210 720,210 820,195 C 880,190 895,225 840,245 C 770,265 730,290 640,285 C 540,280 470,265 420,270 C 360,275 320,265 330,240 Z",
       routes: [
-        { from: { x: 580, y: 250 }, to: { x: 320, y: 260 }, label: "Batı Bozkır Göçü & Yayılımı" }
+        { path: "M 845,195 C 750,220 620,225 430,245", label: "Avrasya Bozkır Yayılımı & Kurgan Hattı" },
+        { path: "M 520,265 C 490,290 440,310 400,315", label: "Ön Asya ve Kafkas Seferleri" }
+      ],
+      keyPlaces: [
+        { id: "pazyryk", name: "Pazırık Kurganı", x: 845, y: 195, type: "kurgan", desc: "Altay Dağları'nda buzullar içinde korunan, dünyanın en eski düğümlü Türk halısının ve at koşumlarının bulunduğu kurgandır." },
+        { id: "esik", name: "Esik Kurganı", x: 755, y: 260, type: "kurgan", desc: "Almatı yakınlarında 4000 altın levhadan zırhıyla bulunan 'Altın Elbiseli Adam' ve 26 harflik erken Türk runik yazıtı." },
+        { id: "olbia-pantikapaion", name: "Pantikapaion & Olbia", x: 425, y: 255, type: "landmark", desc: "Kırım ve Karadeniz kuzeyinde Sakaların Grek dünyasıyla ticaret yaptığı ve altın hayvan üsluplu eserlerin takas edildiği liman bölgesi." },
+        { id: "massaget-merkezi", name: "Massaget Havzası", x: 605, y: 285, type: "landmark", desc: "Aral ve Ceyhun boylarında Tomris Hatun'un Pers Kralı Kyros'u yendiği Massaget Saka yurdu." }
       ]
     },
     rulers: [
@@ -91,11 +98,17 @@ const HISTORICAL_EPOCHS = [
       focus: "steppes-east",
       regionName: "Ötüken, Moğolistan Platosu, Baykal Gölü'nden Sarı Nehir'e",
       capitalOrCenter: "Ötüken (Kutsal Orman)",
-      territoryPath: "M 520,190 Q 640,160 760,190 Q 820,240 780,290 Q 670,330 540,300 Q 480,250 520,190 Z",
-      centerCoords: { x: 650, y: 230 },
+      camera: { center: { x: 890, y: 235 }, zoom: 1.35 },
+      territoryPath: "M 770,220 C 820,180 910,165 1010,170 C 1045,185 1060,240 1025,290 C 975,325 890,320 830,290 C 765,270 740,245 770,220 Z",
       routes: [
-        { from: { x: 680, y: 220 }, to: { x: 620, y: 310 }, label: "Baideng Kuşatması Seferi (MÖ 200)" },
-        { from: { x: 560, y: 240 }, to: { x: 420, y: 260 }, label: "Batıya Göç Dalgası (MS 1. Yüzyıl)" }
+        { path: "M 968,227 C 980,260 1000,290 1015,315", label: "MÖ 200 Baideng Kuşatması Seferi" },
+        { path: "M 920,230 C 830,240 730,260 630,265", label: "Batıya Göç ve İpek Yolu Denetimi" }
+      ],
+      keyPlaces: [
+        { id: "otuken-hun", name: "Ötüken", x: 968, y: 227, type: "capital", desc: "Büyük Hun İmparatorluğu'nun devlet aklının ve kağanlık otağının kurulduğu kutsal orman merkezi." },
+        { id: "noin-ula", name: "Noin-Ula Kurganları", x: 980, y: 205, type: "kurgan", desc: "Selenga Nehri kıyısında Hun kağanlarına ait ipek dokumalar, gümüş levhalar ve ordu teçhizatının çıkarıldığı nekropol." },
+        { id: "baideng", name: "Baideng (Pingcheng)", x: 1015, y: 310, type: "landmark", desc: "Mete Han'ın 320 bin kişilik Çin ordusunu sahte ricat (Turan taktiği) ile kuşatıp vergiye bağladığı savaş alanı." },
+        { id: "ordos", name: "Ordos & Sarı Nehir", x: 960, y: 315, type: "landmark", desc: "Hun süvarilerinin Çin Seddi'nin hemen kuzeyinde at koşturduğu bereketli kışlak ve bozkır yaylası." }
       ]
     },
     rulers: [
@@ -162,13 +175,19 @@ const HISTORICAL_EPOCHS = [
     geography: {
       focus: "europe-danube",
       regionName: "Tuna Boyları, Macaristan Ovaları (Pannonia), Ren Nehri ve Balkanlar",
-      capitalOrCenter: "Tuna / Tisa Havzası Karargâhı (Budapeşte civarı)",
-      territoryPath: "M 220,230 Q 340,210 440,220 Q 420,300 340,320 Q 240,320 200,280 Q 180,240 220,230 Z",
-      centerCoords: { x: 310, y: 260 },
+      capitalOrCenter: "Pannonia (Tuna & Tisa Havzası)",
+      camera: { center: { x: 340, y: 250 }, zoom: 1.4 },
+      territoryPath: "M 215,225 C 265,195 355,200 440,215 C 475,235 460,265 410,270 C 350,270 310,285 260,280 C 205,270 190,245 215,225 Z",
       routes: [
-        { from: { x: 440, y: 230 }, to: { x: 260, y: 260 }, label: "375 Kavimler Göçü Akını" },
-        { from: { x: 280, y: 270 }, to: { x: 190, y: 290 }, label: "451 Katalon (Campus Mauriacus) Seferi" },
-        { from: { x: 280, y: 270 }, to: { x: 240, y: 340 }, label: "452 İtalya ve Roma Seferi" }
+        { path: "M 525,230 C 450,235 380,240 285,235", label: "375 Kavimler Göçü Koridoru (İdil'den Tuna'ya)" },
+        { path: "M 285,235 C 250,225 210,230 170,245", label: "451 Katalon Ovası (Galya) Seferi" },
+        { path: "M 285,235 C 290,265 310,290 355,295", label: "447 Balkan ve Doğu Roma Seferleri" }
+      ],
+      keyPlaces: [
+        { id: "pannonia-otagi", name: "Pannonia Otağı (Tuna)", x: 285, y: 235, type: "capital", desc: "Attila'nın ahşap sarayının bulunduğu, Doğu ve Batı Roma elçilerini kabul ettiği cihanşümul imparatorluk merkezi." },
+        { id: "catalaunian", name: "Katalon Ovası (Campus Mauriacus)", x: 175, y: 235, type: "landmark", desc: "451 yılında Attila ile Roma-Germen müttefik ordularının karşılaştığı, Avrupa tarihini şekillendiren dev meydan savaşı." },
+        { id: "konstantinopolis-balkan", name: "Balkan / Bizans Sınırı", x: 360, y: 285, type: "landmark", desc: "Hun süvarilerinin Termopil ve Konstantinopolis surlarına kadar inerek Doğu Roma'yı ağır yıllık vergilere bağladığı hat." },
+        { id: "dnipro-crossing", name: "Dinyeper / İdil Geçidi", x: 420, y: 230, type: "landmark", desc: "Balamir komutasında Hun ordularının Got krallıklarını dağıtıp Kavimler Göçü fırtınasını başlattığı nehir geçidi." }
       ]
     },
     rulers: [
@@ -230,12 +249,19 @@ const HISTORICAL_EPOCHS = [
     geography: {
       focus: "eurasia-wide",
       regionName: "Kore Yarımadası'ndan Hazar ve Kırım'a Kadar Tüm Avrasya Kuşağı",
-      capitalOrCenter: "Ötüken (Kutsal Kağanlık Merkezi)",
-      territoryPath: "M 320,240 Q 520,180 780,200 Q 840,260 760,310 Q 540,320 340,300 Q 300,260 320,240 Z",
-      centerCoords: { x: 570, y: 240 },
+      capitalOrCenter: "Ötüken (Doğu Kağanlığı) & Suyab / Talas (Batı Kağanlığı)",
+      camera: { center: { x: 700, y: 240 }, zoom: 1.05 },
+      territoryPath: "M 360,250 C 440,210 560,200 700,205 C 840,185 960,175 1060,200 C 1080,240 1020,290 920,295 C 780,310 650,305 520,300 C 420,310 360,285 360,250 Z",
       routes: [
-        { from: { x: 620, y: 220 }, to: { x: 380, y: 250 }, label: "İstemi Yabgu'nun Batı Seferleri" },
-        { from: { x: 420, y: 270 }, to: { x: 350, y: 310 }, label: "Sasani ve Bizans Elçilik Yolları" }
+        { path: "M 968,227 C 840,245 740,265 650,295", label: "İpek Yolu ve Batı Seferleri Kolu" },
+        { path: "M 720,270 C 600,285 525,290 420,295", label: "İstemi Yabgu Sasani & Bizans Diplomatik Hattı" }
+      ],
+      keyPlaces: [
+        { id: "otuken-gokturk", name: "Ötüken", x: 968, y: 227, type: "capital", desc: "Bumin Kağan ve Bilge Kağan'ın 'İl tutulacak yer' olarak nitelediği Doğu Göktürk Kağanlığı'nın kutsal başkenti." },
+        { id: "orhun-anitlari", name: "Orhun Yazıtları (Köl Tigin & Bilge Kağan)", x: 978, y: 222, type: "landmark", desc: "Türk dilinin, devlet felsefesinin ve millet bilincinin taşa kazındığı ilk bengü taşların yükseldiği vadi." },
+        { id: "suyab-talas", name: "Suyab & Talas (Batı Kanadı)", x: 730, y: 268, type: "capital", desc: "İstemi Yabgu ve Batı Göktürk kağanlarının İpek Yolu ticaretini yönettikleri ve yabancı elçileri kabul ettikleri otağ." },
+        { id: "samarkand-sogd", name: "Semerkant & Soğdiana", x: 672, y: 298, type: "landmark", desc: "Göktürk himayesinde İpek Yolu kervan ticaretini küresel boyutta organize eden Soğd vaha tüccarları merkezi." },
+        { id: "kerch-crimea", name: "Kırım / Kerç Boğazı", x: 435, y: 260, type: "landmark", desc: "576'da Göktürk ordularının ulaştığı ve Bizans kalesini fethettiği devletin en batı ucu." }
       ]
     },
     rulers: [
@@ -305,10 +331,17 @@ const HISTORICAL_EPOCHS = [
       focus: "central-tarim",
       regionName: "Karabalgasun, Tarım Havzası, Turfan, Hazar Denizi ve Yedisu",
       capitalOrCenter: "Karabalgasun & Ordubalık (Daha sonra Turfan / Koço)",
-      territoryPath: "M 360,230 Q 560,190 740,210 Q 720,290 560,310 Q 400,310 350,270 Z",
-      centerCoords: { x: 550, y: 250 },
+      camera: { center: { x: 740, y: 245 }, zoom: 1.2 },
+      territoryPath: "M 480,240 C 600,200 780,190 990,200 C 1010,250 940,290 820,300 C 700,310 560,300 480,275 Z",
       routes: [
-        { from: { x: 620, y: 220 }, to: { x: 560, y: 280 }, label: "Tarım Havzası Şehirleşme Göçü" }
+        { path: "M 960,225 C 880,245 800,270 760,295", label: "Karabalgasun'dan Turfan ve Tarım Vahalarına Göç" },
+        { path: "M 525,230 C 490,240 450,250 420,255", label: "Hazar Kağanlığı İpek ve Kürk Ticaret Yolu" }
+      ],
+      keyPlaces: [
+        { id: "karabalgasun", name: "Karabalgasun (Ordubalık)", x: 965, y: 225, type: "capital", desc: "Uygur Kağanlığı'nın devasa surlar, saraylar ve Mani mabetleriyle donattığı ilk büyük Türk şehri." },
+        { id: "turfan-koco", name: "Turfan & Koço", x: 790, y: 280, type: "landmark", desc: "Uygurların matbaa, kütüphaneler, fresk sanatı ve ticaret hukuku belgeleri ürettikleri vaha medeniyeti beşiği." },
+        { id: "itil-hazarlar", name: "İtil Şehri (Hazar Kağanlığı)", x: 520, y: 225, type: "capital", desc: "Volga Deltası'nda cami, sinagog ve kiliselerin yan yana barış içinde yaşadığı Pax Chazarica başkenti." },
+        { id: "balasagun-karluk", name: "Balasagun (Karluk Merkezi)", x: 750, y: 265, type: "landmark", desc: "Yedisu bölgesinde Karluk ve Türgiş boylarının şehirleştiği ve kervan yollarını koruduğu merkez." }
       ]
     },
     rulers: [
@@ -375,11 +408,17 @@ const HISTORICAL_EPOCHS = [
       focus: "middle-east-caucuses",
       regionName: "Talas Vadisi, Horasan, Bağdat, Samarra ve Nil Vadisi (Mısır)",
       capitalOrCenter: "Samarra & Fustat (Kahire)",
-      territoryPath: "M 260,300 Q 380,280 480,310 Q 420,390 320,390 Q 240,360 260,300 Z",
-      centerCoords: { x: 370, y: 340 },
+      camera: { center: { x: 550, y: 320 }, zoom: 1.35 },
+      territoryPath: "M 250,340 C 350,300 450,300 730,270 C 745,295 680,340 570,360 C 460,380 340,400 250,370 Z",
       routes: [
-        { from: { x: 520, y: 270 }, to: { x: 380, y: 340 }, label: "Talas'tan Bağdat'a Askeri ve Ticari Akış" },
-        { from: { x: 360, y: 350 }, to: { x: 270, y: 370 }, label: "Mısır'a Ulaşım (Tolunoğlu Ahmed)" }
+        { path: "M 720,270 C 640,295 560,330 470,350", label: "751 Talas'tan Bağdat ve Samarra'ya Askeri İntikal" },
+        { path: "M 465,350 C 380,360 300,370 250,360", label: "Tolunoğullarının Kahire'ye Ulaşımı" }
+      ],
+      keyPlaces: [
+        { id: "talas-battle", name: "Talas Savaş Meydanı", x: 720, y: 270, type: "landmark", desc: "751 yılında Karlukların desteğiyle Abbasi ordusunun Çin ordusunu yendiği ve Türklerin İslam ile tanıştığı dönüm noktası." },
+        { id: "samarra", name: "Samarra Garnizon Şehri", x: 465, y: 345, type: "capital", desc: "Halife Mutasım tarafından yalnızca Türk muhafız süvarileri için kurulan abidevi saray ve kuleler kenti." },
+        { id: "kahire-fustat", name: "Fustat / Kahire (Tolunoğulları)", x: 250, y: 360, type: "capital", desc: "Tolunoğlu Ahmed'in Mısır'da ilk Müslüman Türk devletini kurup kendi adıyla abidevi camiyi diktiği payitaht." },
+        { id: "merv-horasan", name: "Merv (Horasan)", x: 645, y: 335, type: "landmark", desc: "Türk beylerinin İslam ordularına katıldığı ve doğu valiliklerinin idare edildiği ilim ve garnizon üssü." }
       ]
     },
     rulers: [
@@ -446,10 +485,17 @@ const HISTORICAL_EPOCHS = [
       focus: "central-transoxiana",
       regionName: "Maveraünnehir, Balasagun, Kaşgar, Semerkant ve Fergana Vadisi",
       capitalOrCenter: "Balasagun & Kaşgar (Daha sonra Semerkant)",
-      territoryPath: "M 440,250 Q 560,220 640,260 Q 600,320 500,340 Q 420,310 440,250 Z",
-      centerCoords: { x: 530, y: 280 },
+      camera: { center: { x: 710, y: 285 }, zoom: 1.55 },
+      territoryPath: "M 630,270 C 700,245 780,250 815,285 C 810,320 740,340 670,335 C 615,330 610,295 630,270 Z",
       routes: [
-        { from: { x: 580, y: 260 }, to: { x: 480, y: 300 }, label: "İpek Yolu İlim ve Kervan Güzergâhı" }
+        { path: "M 755,265 C 765,285 770,298 765,300", label: "Kaşgar - Balasagun İlim ve Kültür Ekseni" },
+        { path: "M 765,300 C 720,300 680,298 650,295", label: "İpek Yolu Kervan Yolu (Kaşgar-Semerkant-Buhara)" }
+      ],
+      keyPlaces: [
+        { id: "kasgar", name: "Kaşgar", x: 765, y: 298, type: "capital", desc: "Divânu Lugâti't-Türk ve Kutadgu Bilig'in doğduğu, Karahanlı kültür ve hilafet merkezi." },
+        { id: "balasagun", name: "Balasagun", x: 755, y: 265, type: "capital", desc: "Karahanlıların ilk başkenti, Yusuf Has Hacib'in doğum yeri ve ünlü Burana Minaresi'nin yükseldiği şehir." },
+        { id: "bukhara-samarkand", name: "Buhara & Semerkant", x: 660, y: 296, type: "landmark", desc: "İslam dünyasının 'Kubbeler Şehri', medreseler, rasathaneler ve Ribat-ı Melik kervansaraylarının kalbi." },
+        { id: "gazne", name: "Gazne", x: 670, y: 350, type: "landmark", desc: "Sultan Mahmud'un 17 Hindistan seferini başlattığı, Biruni'yi sarayında ağırlayan Gazneli başkenti." }
       ]
     },
     rulers: [
@@ -516,11 +562,17 @@ const HISTORICAL_EPOCHS = [
       focus: "persia-anatolia",
       regionName: "Horasan, İran Platosu, Irak, Suriye ve Kafkaslar",
       capitalOrCenter: "Nişabur, Rey, İsfahan ve Merv",
-      territoryPath: "M 280,310 Q 420,250 560,280 Q 580,350 480,370 Q 340,380 280,310 Z",
-      centerCoords: { x: 440, y: 310 },
+      camera: { center: { x: 530, y: 320 }, zoom: 1.35 },
+      territoryPath: "M 420,310 C 500,270 600,280 660,320 C 670,355 580,390 480,385 C 410,380 390,345 420,310 Z",
       routes: [
-        { from: { x: 540, y: 280 }, to: { x: 380, y: 310 }, label: "Horasan'dan Rey ve İsfahan'a İntikal" },
-        { from: { x: 420, y: 300 }, to: { x: 320, y: 290 }, label: "1071 Malazgirt Seferi Yolu" }
+        { path: "M 645,335 C 590,340 540,350 465,345", label: "Dandanakan'dan Rey ve Bağdat'a İntikal" },
+        { path: "M 560,340 C 510,330 485,325 480,325", label: "1071 Sultan Alparslan Malazgirt Seferi Yolu" }
+      ],
+      keyPlaces: [
+        { id: "isfahan-rey", name: "İsfahan & Rey", x: 560, y: 355, type: "capital", desc: "Melikşah ve Nizamülmülk'ün Mescid-i Cuma'yı inşa ettirdiği, Siyasetname'nin yazıldığı Selçuklu payitahtı." },
+        { id: "merv-selcuklu", name: "Merv (Sencer'in Başkenti)", x: 645, y: 335, type: "capital", desc: "Sultan Sencer'in abidevi türbesinin bulunduğu, kütüphaneleriyle ünlü Selçuklu doğu başkenti." },
+        { id: "malazgirt", name: "Malazgirt Ovası", x: 480, y: 325, type: "landmark", desc: "26 Ağustos 1071'de Sultan Alparslan'ın Bizans ordusunu dize getirip Anadolu tapusunu Türk milletine kazandırdığı meydan." },
+        { id: "bagdat-nizamiye", name: "Bağdat (Nizamiye Medresesi)", x: 465, y: 350, type: "landmark", desc: "Tuğrul Bey'in Halife tarafından 'Doğu ve Batının Sultanı' ilan edildiği ve dünyanın ilk üniversite ağı olan Nizamiye'nin kurulduğu merkez." }
       ]
     },
     rulers: [
@@ -588,10 +640,17 @@ const HISTORICAL_EPOCHS = [
       focus: "anatolia-core",
       regionName: "İznik, Erzurum, Sivas, Divriği, Mardin ve Harput",
       capitalOrCenter: "İznik (İlk Merkez) & Konya",
-      territoryPath: "M 220,280 Q 280,270 340,280 Q 330,320 280,330 Q 220,320 220,280 Z",
-      centerCoords: { x: 280, y: 295 },
+      camera: { center: { x: 420, y: 320 }, zoom: 1.6 },
+      territoryPath: "M 365,305 C 420,295 475,305 485,330 C 475,345 425,350 380,345 C 360,335 355,315 365,305 Z",
       routes: [
-        { from: { x: 380, y: 290 }, to: { x: 230, y: 280 }, label: "1075 İznik'e Uzanış ve Fütûhat" }
+        { path: "M 480,325 C 440,320 405,318 375,312", label: "1075 İznik Fütûhatı ve Anadolu'ya Yayılış" },
+        { path: "M 360,330 C 350,335 345,340 348,342", label: "Çaka Bey Ege Deniz Akınları" }
+      ],
+      keyPlaces: [
+        { id: "iznik-suleyman", name: "İznik (Nikaia)", x: 375, y: 312, type: "capital", desc: "Kutalmışoğlu Süleyman Şah'ın 1075'te fethederek Türkiye Selçuklularının ilk başkenti ilan ettiği merkez." },
+        { id: "divrigi", name: "Divriği Ulu Camii", x: 445, y: 320, type: "landmark", desc: "Mengücekliler tarafından inşa edilen, taş bezemelerinde namaz kılan insan gölgesi beliren UNESCO başyapıtı." },
+        { id: "erzurum-saltuk", name: "Erzurum (Saltuklular)", x: 472, y: 315, type: "landmark", desc: "Tepsi Minare ve Kale Camii ile Anadolu'daki en erken Türk mimari mirasını kuran Saltuklu başkenti." },
+        { id: "izmir-caka", name: "İzmir (Çaka Beyliği)", x: 352, y: 332, type: "landmark", desc: "İlk Türk amirali Çaka Bey'in tersane kurarak Türk Deniz Kuvvetleri'nin temellerini attığı liman." }
       ]
     },
     rulers: [
@@ -664,12 +723,19 @@ const HISTORICAL_EPOCHS = [
     geography: {
       focus: "anatolia-konya",
       regionName: "Konya, Alanya, Sinop, Kayseri, Sivas ve Erzurum",
-      capitalOrCenter: "Konya (Darü'l-Mülk)",
-      territoryPath: "M 210,280 Q 280,260 360,270 Q 350,330 270,340 Q 200,320 210,280 Z",
-      centerCoords: { x: 275, y: 300 },
+      capitalOrCenter: "Konya (Dârü'l-Mülk)",
+      camera: { center: { x: 415, y: 325 }, zoom: 1.65 },
+      territoryPath: "M 360,305 C 410,295 460,300 480,325 C 475,350 415,355 375,345 C 355,330 350,315 360,305 Z",
       routes: [
-        { from: { x: 260, y: 310 }, to: { x: 250, y: 330 }, label: "Alanya Tersanesi ve Akdeniz Yolu" },
-        { from: { x: 260, y: 310 }, to: { x: 270, y: 270 }, label: "Sinop Karadeniz Ticaret Hattı" }
+        { path: "M 398,335 C 390,345 385,352 388,355", label: "Alanya Tersanesi ve Akdeniz Ticaret Yolu" },
+        { path: "M 398,335 C 405,315 410,300 412,295", label: "Sinop Karadeniz Liman Bağlantısı" }
+      ],
+      keyPlaces: [
+        { id: "konya-selcuklu", name: "Konya (Dârü'l-Mülk)", x: 398, y: 335, type: "capital", desc: "Mevlânâ Celâleddîn-i Rûmî'nin irfan ocağı, Alâeddin Keykubad'ın sarayı ve Selçuklu payitahtı." },
+        { id: "miryokefalon", name: "Miryokefalon (Karamıkbeli)", x: 382, y: 330, type: "landmark", desc: "1176'da II. Kılıç Arslan'ın Bizans'ı hezimete uğratarak Anadolu'nun Türk yurdu olduğunu ebediyen tescil ettiği zafer." },
+        { id: "alanya-kizilkule", name: "Alanya (Alâiye Tersanesi)", x: 388, y: 355, type: "landmark", desc: "I. Alâeddin Keykubad'ın inşa ettiği Kızılkule ve Selçuklu Akdeniz donanma üssü." },
+        { id: "sinop-liman", name: "Sinop Limanı", x: 412, y: 295, type: "landmark", desc: "Kuzey kervan yollarını Kırım'a (Suğdak) bağlayan Selçuklu'nun Karadeniz ticaret kapısı." },
+        { id: "sivas-kayseri", name: "Sivas & Kayseri", x: 435, y: 322, type: "landmark", desc: "Gök Medrese, Çifte Minare ve Dârüşşifalarla donatılmış Selçuklu ticaret ve tıp merkezi." }
       ]
     },
     rulers: [
@@ -730,11 +796,17 @@ const HISTORICAL_EPOCHS = [
       focus: "marmara-balkans",
       regionName: "Söğüt, Bursa, Edirne, Kosova ve Niğbolu",
       capitalOrCenter: "Söğüt -> Bursa -> Edirne",
-      territoryPath: "M 180,240 Q 240,230 300,260 Q 280,310 210,310 Q 170,280 180,240 Z",
-      centerCoords: { x: 235, y: 265 },
+      camera: { center: { x: 360, y: 295 }, zoom: 1.65 },
+      territoryPath: "M 315,260 C 355,245 390,265 410,305 C 410,335 375,340 340,325 C 310,305 300,280 315,260 Z",
       routes: [
-        { from: { x: 230, y: 280 }, to: { x: 210, y: 250 }, label: "1353 Çimpe Kalesi ve Rumeli'ye Geçiş" },
-        { from: { x: 210, y: 250 }, to: { x: 180, y: 230 }, label: "1389 I. Kosova ve Balkan Fütûhatı" }
+        { path: "M 370,312 C 355,300 340,290 325,280", label: "1353 Çimpe Kalesi ve Rumeli'ye Geçiş" },
+        { path: "M 325,280 C 310,270 295,265 280,260", label: "1389 I. Kosova ve Niğbolu Sefer Kolu" }
+      ],
+      keyPlaces: [
+        { id: "sogut-bursa", name: "Söğüt & Bursa", x: 375, y: 312, type: "capital", desc: "Osman Gazi'nin çınar rüyasıyla başlayan, Orhan Gazi'nin ilk payitaht yaptığı Osmanlı'nın beşiği." },
+        { id: "edirne", name: "Edirne (Rumeli Payitahtı)", x: 350, y: 290, type: "capital", desc: "I. Murad'ın fethettiği, İstanbul'un fethine hazırlık yapılan Balkanlardaki ihtişamlı başkent." },
+        { id: "kosova-sahasi", name: "Kosova Ovası", x: 310, y: 275, type: "landmark", desc: "1389 ve 1448 zaferleriyle Balkanların Türk yurdu olduğunu kesinleştiren tarihi meydan." },
+        { id: "cimpe-kalesi", name: "Çimpe Kalesi (Gelibolu)", x: 355, y: 302, type: "landmark", desc: "Süleyman Paşa'nın Rumeli kıyılarına ilk kez ayak basarak fütûhat kapısını açtığı kale." }
       ]
     },
     rulers: [
@@ -803,11 +875,17 @@ const HISTORICAL_EPOCHS = [
       focus: "balkans-anatolia-aegean",
       regionName: "İstanbul, Boğazlar, Mora, Karadeniz Havzası ve Kırım",
       capitalOrCenter: "Konstantiniyye / İstanbul (Payitaht)",
-      territoryPath: "M 180,220 Q 240,210 320,240 Q 300,320 200,310 Q 160,260 180,220 Z",
-      centerCoords: { x: 235, y: 260 },
+      camera: { center: { x: 380, y: 290 }, zoom: 1.55 },
+      territoryPath: "M 290,245 C 360,225 445,230 480,270 C 475,340 410,350 350,345 C 285,320 270,275 290,245 Z",
       routes: [
-        { from: { x: 220, y: 250 }, to: { x: 240, y: 260 }, label: "1453 İstanbul Kuşatması ve Fethi" },
-        { from: { x: 240, y: 260 }, to: { x: 290, y: 200 }, label: "1475 Kırım'ın Fethi ve Karadeniz Türk Gölü" }
+        { path: "M 350,290 C 360,295 365,298 367,298", label: "1453 İstanbul Kuşatması ve Şahi Topları" },
+        { path: "M 367,298 C 390,280 415,265 428,260", label: "1475 Gedik Ahmed Paşa Kırım Seferi (Karadeniz Türk Gölü)" }
+      ],
+      keyPlaces: [
+        { id: "istanbul-feth", name: "İstanbul (Payitaht)", x: 367, y: 298, type: "capital", desc: "29 Mayıs 1453'te Fatih Sultan Mehmed'in fethettiği, Ayasofya ve Topkapı Sarayı ile cihanın merkezi olan başkent." },
+        { id: "rumelihisari", name: "Boğazkesen (Rumeli Hisarı)", x: 369, y: 296, type: "landmark", desc: "Fatih'in Boğaz'ın kuzey geçişini kilitlemek için 4 ayda inşa ettirdiği mühendislik harikası hisar." },
+        { id: "kefe-kirim", name: "Kefe / Kırım Hanlığı", x: 432, y: 260, type: "landmark", desc: "Gedik Ahmed Paşa'nın fethiyle Karadeniz'i bir iç deniz kılan stratejik ticaret üssü." },
+        { id: "otlukbeli", name: "Otlukbeli & Çaldıran", x: 460, y: 318, type: "landmark", desc: "Fatih ve Yavuz Sultan Selim'in ateşli silahlar üstünlüğüyle Doğu Anadolu güvenliğini sağladığı zaferler." }
       ]
     },
     rulers: [
@@ -868,11 +946,17 @@ const HISTORICAL_EPOCHS = [
       focus: "three-continents",
       regionName: "Orta Avrupa, Balkanlar, Kırım, Anadolu, Orta Doğu ve Kuzey Afrika",
       capitalOrCenter: "İstanbul (Dersaadet)",
-      territoryPath: "M 140,190 Q 300,160 440,240 Q 420,380 260,390 Q 140,360 140,280 Z",
-      centerCoords: { x: 260, y: 280 },
+      camera: { center: { x: 390, y: 315 }, zoom: 1.2 },
+      territoryPath: "M 240,220 C 330,190 450,210 500,260 C 510,345 460,400 320,400 C 230,370 200,290 240,220 Z",
       routes: [
-        { from: { x: 240, y: 260 }, to: { x: 170, y: 210 }, label: "1526 Mohaç ve Viyana Sefer Kolu" },
-        { from: { x: 240, y: 270 }, to: { x: 190, y: 340 }, label: "1538 Preveze Deniz Zaferi" }
+        { path: "M 367,298 C 310,265 270,245 255,230", label: "1526 Mohaç ve Viyana Sefer Yolu" },
+        { path: "M 367,298 C 340,325 315,350 260,370", label: "Barbaros Hayreddin Akdeniz Donanma Seferleri" }
+      ],
+      keyPlaces: [
+        { id: "istanbul-klasik", name: "İstanbul (Dersaadet)", x: 367, y: 298, type: "capital", desc: "Kanuni Sultan Süleyman ve Mimar Sinan'ın Süleymaniye ile siluetini taçlandırdığı üç kıtanın payitahtı." },
+        { id: "budin-mohac", name: "Budin & Mohaç Ovası", x: 275, y: 235, type: "capital", desc: "1526'da 2 saatte kazanılan Mohaç Zaferi ve Osmanlı'nın 150 yıl yönettiği Orta Avrupa serhat kalesi." },
+        { id: "preveze", name: "Preveze Limanı", x: 335, y: 325, type: "landmark", desc: "1538'de Barbaros Hayreddin Paşa'nın Haçlı donanmasını bozguna uğratıp Akdeniz'i Türk gölü kıldığı zafer mevkii." },
+        { id: "bagdat-yavuz-kanuni", name: "Bağdat (Dârü's-Selâm)", x: 465, y: 350, type: "landmark", desc: "Kanuni Sultan Süleyman'ın fethettiği, İmam-ı Azam ve Abdülkadir Geylani türbelerini imar ettiği doğu merkezi." }
       ]
     },
     rulers: [
@@ -934,10 +1018,17 @@ const HISTORICAL_EPOCHS = [
       focus: "balkans-anatolia-egypt",
       regionName: "İstanbul, Balkan Cephesi, Mısır ve Boğazlar",
       capitalOrCenter: "İstanbul",
-      territoryPath: "M 170,220 Q 280,210 380,260 Q 340,360 220,340 Q 160,300 170,220 Z",
-      centerCoords: { x: 250, y: 270 },
+      camera: { center: { x: 380, y: 300 }, zoom: 1.45 },
+      territoryPath: "M 260,250 C 330,230 420,240 450,280 C 445,350 370,370 300,360 C 250,330 240,285 260,250 Z",
       routes: [
-        { from: { x: 240, y: 260 }, to: { x: 180, y: 220 }, label: "Avrupa Daimi Elçilikleri Ağı" }
+        { path: "M 367,298 C 300,260 250,230 190,215", label: "Avrupa Daimi Elçilikleri Ağı (Paris, Londra, Viyana)" },
+        { path: "M 367,298 C 380,310 400,320 405,318", label: "Nizam-ı Cedid Kışlaları ve Modern Ordu Hattı" }
+      ],
+      keyPlaces: [
+        { id: "istanbul-modern", name: "İstanbul (Yenileşme Merkezi)", x: 367, y: 298, type: "capital", desc: "İbrahim Müteferrika matbaası, Selimiye Kışlası ve Asâkir-i Mansûre-i Muhammediyye'nin kurulduğu payitaht." },
+        { id: "sadabad", name: "Sadâbâd & Lale Devri", x: 368, y: 297, type: "landmark", desc: "Haliç kıyılarında sanat, tercüme heyetleri ve matbaanın ilk kitaplarının basıldığı kültür ortamı." },
+        { id: "belgrad-tuna", name: "Belgrad (Tuna Serhattı)", x: 300, y: 250, type: "landmark", desc: "Avrupa güçlerine karşı savunma hatlarının ve diplomasi görüşmelerinin kilit noktası." },
+        { id: "kahire-mehmed-ali", name: "Kahire & İskenderiye", x: 340, y: 385, type: "landmark", desc: "Mısır Valisi Mehmed Ali Paşa dönemi modernleşmesi ve Akdeniz rekabetinin odağı." }
       ]
     },
     rulers: [
@@ -998,11 +1089,17 @@ const HISTORICAL_EPOCHS = [
       focus: "balkans-anatolia-mideast",
       regionName: "İstanbul, Çanakkale Boğazı, Balkanlar, Hicaz Demiryolu Hattı ve Kafkaslar",
       capitalOrCenter: "İstanbul",
-      territoryPath: "M 200,240 Q 280,230 360,280 Q 320,350 240,340 Q 190,290 200,240 Z",
-      centerCoords: { x: 255, y: 275 },
+      camera: { center: { x: 395, y: 325 }, zoom: 1.35 },
+      territoryPath: "M 290,265 C 350,255 430,265 460,300 C 450,380 375,410 320,380 C 280,340 270,295 290,265 Z",
       routes: [
-        { from: { x: 240, y: 265 }, to: { x: 215, y: 275 }, label: "1915 Çanakkale Boğazı Savunma Hattı" },
-        { from: { x: 240, y: 265 }, to: { x: 310, y: 360 }, label: "Hicaz Demiryolu Hattı" }
+        { path: "M 367,298 C 362,302 357,306 354,308", label: "1915 Çanakkale Boğazı 'Geçilmez' Savunma Hattı" },
+        { path: "M 367,298 C 410,340 430,380 435,430", label: "Hicaz Demiryolu Hattı (İstanbul - Şam - Medine)" }
+      ],
+      keyPlaces: [
+        { id: "canakkale-bogaz", name: "Çanakkale (Gelibolu)", x: 354, y: 308, type: "landmark", desc: "1915'te Mehmetçiğin dünya donanmalarına 'Çanakkale Geçilmez!' dedirttiği ve Mustafa Kemal'in parladığı siperler." },
+        { id: "istanbul-meclis", name: "İstanbul (Meclis-i Mebusan)", x: 367, y: 298, type: "capital", desc: "1876 Kanun-i Esasi, Gülhane Hatt-ı Hümayunu ve ilk anayasal parlamentonun toplandığı payitaht." },
+        { id: "medine-fahreddin", name: "Medine-i Münevvere", x: 435, y: 430, type: "landmark", desc: "'Çöl Kaplanı' Fahreddin Paşa'nın açlık ve yokluk içinde Peygamber kabrini 72 gün boyunca savunduğu müdafaa kalesi." },
+        { id: "sarikamis-kafkas", name: "Sarıkamış & Kafkas Cephesi", x: 485, y: 305, type: "landmark", desc: "Donma ve amansız kış şartlarında vatan savunması yapan Kafkas İslam Ordusu ve şehitler diyarı." }
       ]
     },
     rulers: [
@@ -1065,12 +1162,19 @@ const HISTORICAL_EPOCHS = [
       focus: "turkey-war-independence",
       regionName: "Samsun, Amasya, Erzurum, Sivas, Ankara, Sakarya, Dumlupınar ve İzmir",
       capitalOrCenter: "Ankara (Milli Mücadele Karargâhı)",
-      territoryPath: "M 200,270 Q 280,260 360,270 Q 340,320 260,330 Q 190,310 200,270 Z",
-      centerCoords: { x: 270, y: 290 },
+      camera: { center: { x: 410, y: 320 }, zoom: 1.75 },
+      territoryPath: "M 355,310 C 405,295 455,295 480,315 C 475,340 425,350 375,345 C 350,335 345,320 355,310 Z",
       routes: [
-        { from: { x: 240, y: 260 }, to: { x: 275, y: 265 }, label: "19 Mayıs 1919 Samsun Çıkışı" },
-        { from: { x: 275, y: 265 }, to: { x: 340, y: 275 }, label: "Erzurum ve Sivas Kongreleri Hattı" },
-        { from: { x: 260, y: 290 }, to: { x: 210, y: 290 }, label: "Büyük Taarruz: 'Ordular İlk Hedefiniz Akdenizdir!'" }
+        { path: "M 367,298 C 390,290 415,290 425,298", label: "19 Mayıs 1919 Bandırma Vapuru (Samsun Çıkışı)" },
+        { path: "M 425,298 C 430,305 455,308 472,312", label: "Amasya, Erzurum ve Sivas Kongreler Yolu" },
+        { path: "M 405,318 C 385,322 368,328 352,332", label: "9 Eylül 1922 Büyük Taarruz: 'Ordular İlk Hedefiniz Akdenizdir!'" }
+      ],
+      keyPlaces: [
+        { id: "ankara-tbmm", name: "Ankara (TBMM)", x: 405, y: 318, type: "capital", desc: "23 Nisan 1920'de açılan 'Hâkimiyet bilâ kaydü şart milletindir' ilkesiyle Milli Mücadele'yi yöneten gazi meclis." },
+        { id: "samsun-isik", name: "Samsun (İlk Adım)", x: 425, y: 298, type: "landmark", desc: "19 Mayıs 1919'da Mustafa Kemal Paşa'nın ayak basarak milli kurtuluş meşalesini yaktığı liman kenti." },
+        { id: "sakarya-meydan", name: "Sakarya & Dumlupınar", x: 385, y: 324, type: "landmark", desc: "'Hatt-ı müdafaa yoktur, sath-ı müdafaa vardır' emriyle 22 gün 22 gece süren Başkomutanlık Meydan Muharebesi." },
+        { id: "sivas-kongre", name: "Sivas & Erzurum", x: 445, y: 315, type: "landmark", desc: "'Milli sınırlar içinde vatan bir bütündür, bölünemez' ve 'Manda kabul edilemez' kararlarının alındığı kongreler merkezi." },
+        { id: "izmir-kurtulus", name: "İzmir (9 Eylül)", x: 352, y: 332, type: "landmark", desc: "Süvarilerin Kordon'a bayrağı çekerek Anadolu'yu işgalden ebediyen kurtardığı zafer sahili." }
       ]
     },
     rulers: [
@@ -1132,13 +1236,19 @@ const HISTORICAL_EPOCHS = [
     lead: "29 Ekim 1923'te ilan edilen Türkiye Cumhuriyeti, tebaa yerine eşit vatandaşlık bilincini getirdi. Harf Devrimi, Medeni Kanun, kadınlara seçme-seçilme hakkı, demiryolları ve yerli sanayi hamleleriyle Anadolu bir aydınlanma laboratuvarına dönüştü. Atatürk'ün çizdiği 'Muasır medeniyet seviyesinin üzerine çıkma' hedefi devlet felsefesi oldu.",
     geography: {
       focus: "modern-turkey",
-      regionName: "Misak-ı Milli Sınırları, Ankara (Başkent), Hatay ve 81 İl",
+      regionName: "Misak-ı Millî Sınırları, Ankara (Başkent), Hatay ve 81 İl",
       capitalOrCenter: "Ankara (Cumhuriyetin Kalbi)",
-      territoryPath: "M 190,260 Q 280,250 380,260 Q 360,320 260,330 Q 180,310 190,260 Z",
-      centerCoords: { x: 275, y: 285 },
+      camera: { center: { x: 415, y: 322 }, zoom: 1.7 },
+      territoryPath: "M 355,302 C 370,298 425,296 465,305 C 485,315 480,335 440,345 C 410,360 380,350 355,340 C 348,325 348,310 355,302 Z",
       routes: [
-        { from: { x: 275, y: 285 }, to: { x: 230, y: 265 }, label: "Demirağlar Hamlesi (Demiryolu Ağı)" },
-        { from: { x: 275, y: 285 }, to: { x: 300, y: 330 }, label: "1939 Hatay'ın Anavatana Katılışı" }
+        { path: "M 405,318 C 375,312 435,322 472,315", label: "Demirağlar Hamlesi: Anadolu'yu Ören Demiryolu Ağı" },
+        { path: "M 405,318 C 415,340 420,355 422,358", label: "1939 Hatay'ın Anavatana Katılışı Diplomatik Hattı" }
+      ],
+      keyPlaces: [
+        { id: "ankara-baskent", name: "Ankara (Başkent)", x: 405, y: 318, type: "capital", desc: "29 Ekim 1923'te Cumhuriyet'in ilan edildiği, Anıtkabir'in yükseldiği çağdaş ve laik Türkiye'nin kalbi." },
+        { id: "istanbul-kultur", name: "İstanbul (Kültür ve Sanayi)", x: 367, y: 298, type: "landmark", desc: "Üniversite reformu, Darülfünun dönüşümü ve Türk Dil ile Tarih Kurultaylarının toplandığı kültür beşiği." },
+        { id: "hatay-antakya", name: "Hatay (Antakya)", x: 422, y: 358, type: "landmark", desc: "Atatürk'ün 'Şahsi meselemdir' dediği ve 1939'da barışçıl diplomasiyle Türkiye'ye katılan serhat ili." },
+        { id: "karabuk-demir", name: "Karabük Demir Çelik Fabrikası", x: 395, y: 304, type: "landmark", desc: "Cumhuriyet'in ilk ağır sanayi fabrikası, yerli üretimin ve kalkınma hamlesinin simgesi." }
       ]
     },
     rulers: [
@@ -1200,11 +1310,17 @@ const HISTORICAL_EPOCHS = [
       focus: "turkic-world-global",
       regionName: "Türkiye, Kıbrıs, Azerbaycan, Kazakistan, Özbekistan, Kırgızistan ve Türkmenistan",
       capitalOrCenter: "Ankara & Türk Dünyası Başkentleri",
-      territoryPath: "M 180,260 Q 320,240 540,250 Q 560,330 360,340 Q 180,330 180,260 Z",
-      centerCoords: { x: 340, y: 280 },
+      camera: { center: { x: 550, y: 300 }, zoom: 1.15 },
+      territoryPath: "M 350,310 C 430,285 520,280 620,265 C 720,250 780,260 800,290 C 780,320 680,335 540,345 C 440,360 370,355 350,310 Z",
       routes: [
-        { from: { x: 275, y: 285 }, to: { x: 420, y: 295 }, label: "Bakü-Tiflis-Ceyhan ve Zengezur Koridoru" },
-        { from: { x: 275, y: 285 }, to: { x: 520, y: 280 }, label: "Türk Devletleri Teşkilatı Entegrasyon Hattı" }
+        { path: "M 405,318 C 450,330 500,315 542,298", label: "Bakü-Tiflis-Ceyhan ve Zengezur Enerji-Ulaşım Koridoru" },
+        { path: "M 542,298 C 620,290 690,280 755,265", label: "Türk Devletleri Teşkilatı Entegrasyon ve İpekyolu Hattı" }
+      ],
+      keyPlaces: [
+        { id: "ankara-tdt", name: "Ankara", x: 405, y: 318, type: "capital", desc: "Türkiye Cumhuriyeti'nin başkenti, savunma sanayii ve teknoloji hamlesinin yönetim merkezi." },
+        { id: "baku-azerbaycan", name: "Bakü (Azerbaycan)", x: 542, y: 298, type: "capital", desc: "'Bir millet, iki devlet' şiarıyla Şuşa Beyannamesi ve Zengezur Koridoru'nun kilit Kafkas payitahtı." },
+        { id: "lefkosa-kktc", name: "Lefkoşa (KKTC)", x: 382, y: 368, type: "capital", desc: "1974 Barış Harekâtı ile güvence altına alınan Doğu Akdeniz'deki bağımsız Türk cumhuriyeti başkenti." },
+        { id: "astana-taskent", name: "Astana & Taşkent", x: 710, y: 275, type: "capital", desc: "Türk Devletleri Teşkilatı'nın Avrasya'da yükselen modern Türk dünyası diplomasi ve kültür başkentleri." }
       ]
     },
     rulers: [
