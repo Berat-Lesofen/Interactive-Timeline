@@ -1,0 +1,170 @@
+/* ==========================================================================
+   Türk Tarihi — Zamanın İzinde
+   Etkileşimli SVG Tarih Haritası Stilleri
+   ========================================================================== */
+
+.map-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #06080d;
+}
+
+.historical-svg-map {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Harita Katmanları */
+.map-landmass {
+  fill: #111624;
+  stroke: rgba(212, 175, 55, 0.15);
+  stroke-width: 0.75;
+  transition: fill 0.5s ease;
+}
+
+.map-water-grid {
+  stroke: rgba(22, 36, 59, 0.25);
+  stroke-width: 0.5;
+  stroke-dasharray: 4, 8;
+}
+
+/* Dönem Hakimiyet Bölgesi (Territory Highlight Overlay) */
+.map-territory-path {
+  fill: url(#goldTerritoryGradient);
+  stroke: var(--gold-light);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.55));
+  opacity: 0.75;
+  transition: d 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+  animation: territoryBreathe 4s infinite ease-in-out alternate;
+}
+
+@keyframes territoryBreathe {
+  0% { opacity: 0.65; stroke-width: 1.5; }
+  100% { opacity: 0.85; stroke-width: 2.2; }
+}
+
+/* Göç ve Sefer Yolları (Migration & Campaign Routes) */
+.map-route-path {
+  fill: none;
+  stroke: var(--gold-light);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 6, 6;
+  animation: routeDash 1.5s infinite linear;
+  filter: drop-shadow(0 0 6px var(--gold-primary));
+}
+
+@keyframes routeDash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+/* Harita Şehir / Merkez Düğümleri */
+.map-city-node {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.map-city-node:hover {
+  transform: scale(1.3);
+}
+
+.map-city-dot {
+  fill: var(--gold-light);
+  stroke: #07080b;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 4px var(--gold-primary));
+}
+
+.map-city-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  fill: var(--text-parchment);
+  text-shadow: 0 1px 4px #000000;
+  pointer-events: none;
+}
+
+.map-city-capital .map-city-dot {
+  fill: #ffffff;
+  stroke: var(--crimson);
+  stroke-width: 2;
+  r: 4.5;
+}
+
+.map-city-capital .map-city-label {
+  fill: var(--gold-light);
+  font-weight: bold;
+  font-size: 10px;
+}
+
+/* Pusula Gülü / Tamga Motifi */
+.map-compass-rose {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
+  opacity: 0.35;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.map-container:hover .map-compass-rose {
+  opacity: 0.65;
+}
+
+/* Harita Odaklama / Kontrol Araç Çubuğu */
+.map-controls-toolbar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 0.4rem;
+  z-index: 5;
+}
+
+.map-tool-btn {
+  width: 28px;
+  height: 28px;
+  background: rgba(16, 20, 30, 0.85);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.75rem;
+  backdrop-filter: blur(4px);
+  transition: var(--transition-fast);
+}
+
+.map-tool-btn:hover {
+  background: rgba(30, 36, 52, 0.95);
+  color: var(--gold-light);
+  border-color: var(--gold-primary);
+}
+
+/* Aktif Odak Rozeti */
+.map-focus-indicator {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(10, 12, 18, 0.85);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: 0.25rem 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--gold-primary);
+  letter-spacing: 0.08em;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+}

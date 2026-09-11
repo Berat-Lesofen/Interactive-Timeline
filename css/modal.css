@@ -1,0 +1,473 @@
+/* ==========================================================================
+   Türk Tarihi — Zamanın İzinde
+   Müze Arşiv Çekmecesi (Museum Archive Drawer / Side Panel) ve Yan Dallar
+   ========================================================================== */
+
+/* Arka Plan Karartması (Overlay) */
+.archive-drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(5, 6, 9, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 500;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
+}
+
+.archive-drawer-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Çekmece Gövdesi (Slide-out Panel) */
+.archive-drawer-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(720px, 92vw);
+  height: 100vh;
+  background: #0d1019;
+  border-left: 1px solid var(--border-medium);
+  box-shadow: -15px 0 50px rgba(0, 0, 0, 0.85), inset 1px 0 0 rgba(212, 175, 55, 0.15);
+  z-index: 501;
+  transform: translateX(100%);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.archive-drawer-overlay.active .archive-drawer-panel {
+  transform: translateX(0);
+}
+
+/* Çekmece Üst Başlık Şeridi */
+.drawer-header {
+  padding: 1.75rem 2.25rem 1.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+  background: linear-gradient(180deg, rgba(20, 26, 40, 0.6) 0%, transparent 100%);
+  position: relative;
+}
+
+.drawer-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.drawer-period-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--gold-light);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  background: rgba(212, 175, 55, 0.12);
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.drawer-close-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: var(--transition-fast);
+}
+
+.drawer-close-btn:hover {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: var(--gold-primary);
+  color: var(--gold-light);
+  transform: rotate(90deg);
+}
+
+.drawer-title {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--text-pure);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.25rem;
+}
+
+.drawer-subtitle {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: var(--gold-light);
+  font-style: italic;
+}
+
+/* Çekmece Sekmeleri (Tab Bar) */
+.drawer-tabs-bar {
+  display: flex;
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(10, 12, 18, 0.9);
+  padding: 0 1.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.drawer-tabs-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.drawer-tab-btn {
+  background: transparent;
+  border: none;
+  padding: 1rem 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+  transition: var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.drawer-tab-btn:hover {
+  color: var(--text-parchment);
+}
+
+.drawer-tab-btn.active {
+  color: var(--gold-light);
+  font-weight: 600;
+}
+
+.drawer-tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--gold-primary);
+  box-shadow: 0 0 10px var(--gold-primary);
+}
+
+/* Çekmece İçerik Alanı */
+.drawer-content-scrollable {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem 2.25rem 4rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold-deep) transparent;
+}
+
+.drawer-content-scrollable::-webkit-scrollbar {
+  width: 5px;
+}
+
+.drawer-content-scrollable::-webkit-scrollbar-thumb {
+  background: var(--gold-deep);
+  border-radius: 3px;
+}
+
+.drawer-tab-pane {
+  display: none;
+  animation: fadeInPane 0.35s ease-out;
+}
+
+.drawer-tab-pane.active {
+  display: block;
+}
+
+@keyframes fadeInPane {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   SEKME 1: YAN DALLAR VE SİYASİ YAPILAR (SUB-BRANCHES)
+   ========================================================================== */
+.sub-branch-info-banner {
+  background: rgba(22, 36, 59, 0.35);
+  border-left: 3px solid var(--gold-primary);
+  padding: 0.9rem 1.25rem;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 1.75rem;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.sub-branches-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+.sub-branch-card {
+  background: rgba(16, 21, 32, 0.7);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 1.5rem 1.65rem;
+  transition: var(--transition-fast);
+}
+
+.sub-branch-card:hover {
+  border-color: var(--gold-primary);
+  background: rgba(24, 32, 48, 0.85);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.sub-branch-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.sub-branch-name {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-pure);
+  letter-spacing: 0.04em;
+}
+
+.sub-branch-period {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--gold-primary);
+  background: rgba(212, 175, 55, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+}
+
+.sub-branch-region {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.sub-branch-desc {
+  font-size: 0.92rem;
+  color: var(--text-parchment);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   SEKME 2: HÜKÜMDARLAR VE ŞAHSİYETLER
+   ========================================================================== */
+.rulers-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.ruler-detail-card {
+  background: rgba(16, 21, 32, 0.7);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 1.5rem 1.75rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.ruler-detail-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--gold-primary);
+}
+
+.ruler-name {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 0.2rem;
+}
+
+.ruler-role {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.85rem;
+}
+
+.ruler-note {
+  font-size: 0.92rem;
+  color: var(--text-parchment);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   SEKME 3: MADDİ KÜLTÜR VE ESERLER (ARTIFACTS)
+   ========================================================================== */
+.artifacts-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.artifact-card {
+  background: rgba(16, 21, 32, 0.7);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 1.65rem 1.85rem;
+  transition: var(--transition-fast);
+}
+
+.artifact-card:hover {
+  border-color: var(--border-medium);
+  background: rgba(22, 28, 44, 0.8);
+}
+
+.artifact-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.artifact-name {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-pure);
+}
+
+.artifact-century {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--gold-light);
+  background: rgba(212, 175, 55, 0.12);
+  padding: 0.2rem 0.55rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.artifact-location {
+  font-size: 0.8rem;
+  color: var(--gold-primary);
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.artifact-desc {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   SEKME 4: TARİHSEL SÜREKLİLİK VE KRONOLOJİ
+   ========================================================================== */
+.continuity-deep-box {
+  background: rgba(16, 21, 32, 0.7);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.continuity-deep-box h3 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--gold-light);
+  margin-bottom: 0.75rem;
+}
+
+.continuity-deep-box p {
+  font-size: 0.95rem;
+  color: var(--text-parchment);
+  line-height: 1.7;
+}
+
+.milestones-detailed-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  padding-left: 1.75rem;
+}
+
+.milestones-detailed-timeline::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: rgba(212, 175, 55, 0.2);
+}
+
+.milestone-detail-item {
+  position: relative;
+}
+
+.milestone-detail-item::before {
+  content: '';
+  position: absolute;
+  left: -1.75rem;
+  top: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--gold-primary);
+  border: 2px solid #0d1019;
+  box-shadow: 0 0 8px var(--gold-primary);
+}
+
+.milestone-year {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 0.25rem;
+}
+
+.milestone-event {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Responsive Çekmece */
+@media (max-width: 768px) {
+  .archive-drawer-panel {
+    width: 100vw;
+  }
+
+  .drawer-header {
+    padding: 1.25rem 1.5rem 1rem;
+  }
+
+  .drawer-title {
+    font-size: 1.5rem;
+  }
+
+  .drawer-content-scrollable {
+    padding: 1.5rem;
+  }
+}

@@ -1,0 +1,551 @@
+/* ==========================================================================
+   Türk Tarihi — Zamanın İzinde
+   Timeline Yapısı, Split-Stage Sahnesi ve Canlı Scrubber Stilleri
+   ========================================================================== */
+
+/* Ana Müze Sahnesi Konteyneri */
+.museum-stage {
+  position: relative;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 2rem 2rem 6rem;
+  z-index: 5;
+}
+
+/* İki Sütunlu Sinematik Sahne (Split-Stage) */
+.split-stage-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 3.5rem;
+  position: relative;
+  align-items: start;
+}
+
+/* ==========================================================================
+   SOL TARAF: SABİT GÖRSEL VE HARİTA SAHNESİ (STICKY STAGE)
+   ========================================================================== */
+.sticky-stage-col {
+  position: sticky;
+  top: calc(var(--header-height) + 2rem);
+  height: calc(100vh - var(--header-height) - 4rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: radial-gradient(circle at 50% 40%, rgba(20, 26, 38, 0.7) 0%, rgba(10, 12, 18, 0.95) 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(212, 175, 55, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+
+/* Sahne Arka Plan Işıltısı */
+.stage-ambient-glow {
+  position: absolute;
+  top: -20%;
+  left: 10%;
+  width: 80%;
+  height: 60%;
+  background: radial-gradient(ellipse, rgba(212, 175, 55, 0.08) 0%, rgba(14, 24, 40, 0.05) 50%, transparent 80%);
+  filter: blur(40px);
+  pointer-events: none;
+  transition: var(--transition-smooth);
+}
+
+/* Sabit Sahne Başlığı & Rozeti */
+.stage-epoch-spotlight {
+  position: relative;
+  z-index: 3;
+  margin-bottom: 1.25rem;
+}
+
+.stage-epoch-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--gold-light);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: rgba(212, 175, 55, 0.1);
+  padding: 0.35rem 0.85rem;
+  border-radius: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  margin-bottom: 0.6rem;
+}
+
+.stage-epoch-name {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-pure);
+  line-height: 1.2;
+}
+
+.stage-epoch-geography {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+.stage-epoch-geography svg {
+  color: var(--gold-primary);
+  flex-shrink: 0;
+}
+
+/* Harita Taşıyıcısı */
+.stage-map-wrapper {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  min-height: 280px;
+  max-height: 380px;
+  border: 1px solid rgba(212, 175, 55, 0.12);
+  border-radius: 10px;
+  background: #080a0e;
+  overflow: hidden;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+  margin: 1rem 0;
+}
+
+/* Sahne Alt Bilgi Şeridi */
+.stage-footer-info {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.12);
+}
+
+.stage-center-badge {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+}
+
+.stage-center-badge strong {
+  color: var(--gold-light);
+  font-weight: 600;
+}
+
+.stage-era-counter {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  color: var(--gold-primary);
+  letter-spacing: 0.1em;
+}
+
+/* ==========================================================================
+   SAĞ TARAF: AKICI TARİHSEL ANLATI AKIŞI (NARRATIVE STREAM)
+   ========================================================================== */
+.narrative-stream-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+  position: relative;
+  z-index: 3;
+}
+
+/* Dönem Kartı */
+.epoch-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 2.75rem 2.5rem;
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: var(--transition-smooth);
+  opacity: 0.45;
+  transform: translateY(20px);
+}
+
+.epoch-card.active {
+  opacity: 1;
+  transform: translateY(0);
+  border-color: var(--border-medium);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.8), 0 0 30px var(--gold-glow);
+  background: var(--bg-card-hover);
+}
+
+/* Kart Üst Başlık Grubu */
+.epoch-card-header {
+  margin-bottom: 1.5rem;
+}
+
+.epoch-timeline-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  color: var(--gold-primary);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.epoch-pill-index {
+  background: rgba(212, 175, 55, 0.18);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.epoch-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.2vw, 2.75rem);
+  font-weight: 700;
+  color: var(--text-pure);
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  margin-bottom: 0.4rem;
+}
+
+.epoch-subtitle {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--gold-light);
+  letter-spacing: 0.04em;
+  margin-bottom: 1.25rem;
+}
+
+.epoch-lead {
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: var(--text-parchment);
+  font-weight: 400;
+  margin-bottom: 2rem;
+  border-left: 2px solid var(--gold-primary);
+  padding-left: 1.25rem;
+}
+
+/* Kart 3 Sütunlu Özet Grid'i */
+.epoch-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+  background: rgba(10, 12, 18, 0.6);
+  padding: 1.25rem;
+  border-radius: 8px;
+  border: 1px solid rgba(212, 175, 55, 0.08);
+}
+
+.pillar-col h4 {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-primary);
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pillar-rulers-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.ruler-pill {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.25rem 0.55rem;
+  border-radius: 4px;
+  border-left: 2px solid rgba(212, 175, 55, 0.4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ruler-pill:hover {
+  color: var(--text-pure);
+  background: rgba(212, 175, 55, 0.12);
+}
+
+.pillar-culture-content {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.pillar-symbols {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.symbol-badge {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  background: rgba(22, 36, 59, 0.5);
+  color: var(--gold-light);
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.pillar-milestone-text {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.pillar-milestone-year {
+  display: block;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 0.2rem;
+}
+
+/* Tarihsel Süreklilik Bağı (Continuity) */
+.epoch-continuity-box {
+  background: linear-gradient(90deg, rgba(22, 36, 59, 0.3) 0%, rgba(10, 12, 18, 0.4) 100%);
+  border-left: 3px solid var(--gold-deep);
+  padding: 0.85rem 1.25rem;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 2rem;
+}
+
+.continuity-header {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.35rem;
+}
+
+.continuity-text {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* Kart Aksiyon Butonları */
+.epoch-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.12);
+}
+
+.btn-open-archive {
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid var(--border-medium);
+  color: var(--gold-light);
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.4rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: var(--transition-fast);
+}
+
+.btn-open-archive:hover {
+  background: var(--gold-primary);
+  color: #07080b;
+  box-shadow: 0 4px 20px var(--gold-glow);
+  transform: translateY(-1px);
+}
+
+.btn-focus-map {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: var(--transition-fast);
+}
+
+.btn-focus-map:hover {
+  color: var(--gold-light);
+}
+
+/* ==========================================================================
+   CANLI ZAMAN SCRUBBER'I (LIVING TIMELINE SCRUBBER - FIXED RIGHT)
+   ========================================================================== */
+.timeline-scrubber {
+  position: fixed;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  z-index: 90;
+  padding: 1rem 0.5rem;
+}
+
+.scrubber-track {
+  position: absolute;
+  top: 15px;
+  bottom: 15px;
+  width: 2px;
+  background: rgba(212, 175, 55, 0.15);
+  z-index: -1;
+}
+
+.scrubber-fill {
+  position: absolute;
+  top: 15px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--gold-primary), var(--gold-light));
+  box-shadow: 0 0 8px var(--gold-primary);
+  height: 0%;
+  transition: height 0.2s linear;
+  z-index: -1;
+}
+
+.scrubber-node {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #141926;
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  position: relative;
+  transition: var(--transition-fast);
+}
+
+.scrubber-node:hover {
+  transform: scale(1.4);
+  border-color: var(--gold-light);
+  background: var(--gold-primary);
+}
+
+.scrubber-node.active {
+  width: 14px;
+  height: 14px;
+  background: var(--gold-light);
+  border-color: #ffffff;
+  box-shadow: 0 0 12px var(--gold-primary), 0 0 20px var(--gold-glow-strong);
+}
+
+.scrubber-node.active::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-primary);
+  animation: nodeRipple 2s infinite ease-out;
+}
+
+@keyframes nodeRipple {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* Tooltip */
+.scrubber-node .scrubber-tooltip {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%) translateX(10px);
+  background: rgba(14, 18, 28, 0.95);
+  border: 1px solid var(--border-medium);
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  font-family: var(--font-serif);
+  font-size: 0.75rem;
+  color: var(--gold-light);
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition-fast);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+}
+
+.scrubber-node:hover .scrubber-tooltip {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* ==========================================================================
+   RESPONSIVE UYARLAMALAR
+   ========================================================================== */
+@media (max-width: 1100px) {
+  .split-stage-layout {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .sticky-stage-col {
+    position: relative;
+    top: 0;
+    height: auto;
+    max-height: none;
+    margin-bottom: 2rem;
+  }
+
+  .stage-map-wrapper {
+    height: 320px;
+  }
+
+  .timeline-scrubber {
+    display: none;
+  }
+
+  .epoch-pillars-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .museum-stage {
+    padding: 1.5rem 1rem 4rem;
+  }
+
+  .epoch-card {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .epoch-title {
+    font-size: 1.75rem;
+  }
+
+  .sticky-stage-col {
+    padding: 1.25rem;
+  }
+}

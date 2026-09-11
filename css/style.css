@@ -1,0 +1,592 @@
+/* ==========================================================================
+   Türk Tarihi — Zamanın İzinde
+   Tasarım Sistemi, Renk Paleti ve Temel Arayüz Stilleri
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Renk Paleti */
+  --bg-darkest: #07080b;
+  --bg-primary: #0a0c12;
+  --bg-surface: #10131d;
+  --bg-card: rgba(16, 20, 30, 0.78);
+  --bg-card-hover: rgba(24, 30, 44, 0.88);
+  --bg-glass: rgba(12, 15, 24, 0.65);
+  
+  /* Altın, Bronz ve Vurgu Tonları */
+  --gold-primary: #d4af37;
+  --gold-light: #f3d778;
+  --gold-deep: #a67c1e;
+  --bronze: #8c6d32;
+  --crimson: #9e2a2b;
+  --crimson-glow: rgba(158, 42, 43, 0.3);
+  --gold-glow: rgba(212, 175, 55, 0.22);
+  --gold-glow-strong: rgba(212, 175, 55, 0.45);
+  --steppe-blue: #16243b;
+
+  /* Tipografi Renkleri */
+  --text-pure: #ffffff;
+  --text-parchment: #f0ebe1;
+  --text-secondary: #c0b7a8;
+  --text-muted: #827a6f;
+  --text-dark: #4d463d;
+
+  /* Kenarlıklar */
+  --border-subtle: rgba(212, 175, 55, 0.16);
+  --border-medium: rgba(212, 175, 55, 0.32);
+  --border-glow: rgba(243, 215, 120, 0.55);
+
+  /* Font Aileleri */
+  --font-serif: 'Cinzel', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Geçişler ve Gölgeler */
+  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.2s ease-out;
+  --shadow-card: 0 16px 36px -12px rgba(0, 0, 0, 0.7), 0 0 1px 1px rgba(212, 175, 55, 0.12);
+  --shadow-glow: 0 0 25px rgba(212, 175, 55, 0.2);
+
+  /* Layout */
+  --header-height: 72px;
+  --container-max: 1400px;
+}
+
+/* Sıfırlama ve Temel */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+  background-color: var(--bg-darkest);
+  font-family: var(--font-sans);
+  color: var(--text-parchment);
+  line-height: 1.65;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: radial-gradient(circle at 50% 15%, #151a28 0%, var(--bg-darkest) 75%);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Arka plan tanecik canvas'ı */
+#ambient-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.45;
+}
+
+/* Sayfa üstü ince ilerleme çubuğu */
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold-deep), var(--gold-primary), var(--gold-light));
+  box-shadow: 0 0 10px var(--gold-primary);
+  z-index: 1000;
+  transition: width 0.1s linear;
+}
+
+/* ==========================================================================
+   ÜST KONTROL PANELİ (HUD HEADER)
+   ========================================================================== */
+.site-hud {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2.5rem;
+  background: linear-gradient(180deg, rgba(7, 8, 11, 0.95) 0%, rgba(7, 8, 11, 0.4) 80%, transparent 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 100;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: var(--transition-smooth);
+}
+
+.site-hud.scrolled {
+  background: rgba(10, 12, 18, 0.92);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.hud-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  color: var(--text-parchment);
+}
+
+.hud-logo-icon {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--gold-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, transparent 70%);
+  color: var(--gold-light);
+  box-shadow: 0 0 12px var(--gold-glow);
+}
+
+.hud-brand-text h1 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text-pure);
+}
+
+.hud-brand-text span {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--gold-primary);
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+}
+
+.hud-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* HUD Butonları */
+.hud-btn {
+  background: rgba(18, 22, 34, 0.75);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  padding: 0.55rem 1.15rem;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition-fast);
+}
+
+.hud-btn:hover {
+  border-color: var(--gold-primary);
+  color: var(--gold-light);
+  background: rgba(30, 36, 52, 0.85);
+  box-shadow: 0 0 15px var(--gold-glow);
+}
+
+.hud-btn.active {
+  border-color: var(--gold-light);
+  color: var(--gold-light);
+  background: rgba(212, 175, 55, 0.15);
+}
+
+/* ==========================================================================
+   HERO BÖLÜMÜ
+   ========================================================================== */
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6rem 1.5rem 4rem;
+  z-index: 2;
+}
+
+.hero-aura {
+  position: absolute;
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, rgba(22, 36, 59, 0.1) 45%, transparent 70%);
+  filter: blur(70px);
+  pointer-events: none;
+  z-index: -1;
+  animation: auraPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes auraPulse {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  100% { transform: scale(1.15); opacity: 1; }
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 1.3rem;
+  background: rgba(18, 22, 34, 0.8);
+  border: 1px solid var(--border-subtle);
+  border-radius: 50px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-primary);
+  margin-bottom: 2rem;
+  backdrop-filter: blur(8px);
+}
+
+.hero-badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold-primary);
+  box-shadow: 0 0 8px var(--gold-primary);
+  animation: blink 2s infinite ease-in-out;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.8rem, 7vw, 6.2rem);
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-pure);
+  line-height: 1.1;
+  margin-bottom: 1.25rem;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 175, 55, 0.15);
+  background: linear-gradient(180deg, #ffffff 40%, var(--gold-light) 90%, var(--gold-deep) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-family: var(--font-serif);
+  font-size: clamp(1.1rem, 2.2vw, 1.65rem);
+  font-weight: 400;
+  color: var(--text-secondary);
+  max-width: 820px;
+  margin: 0 auto 1.5rem;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+
+.hero-desc {
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 680px;
+  margin: 0 auto 2.5rem;
+  font-weight: 300;
+}
+
+.hero-cta-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 4rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold-deep) 0%, var(--gold-primary) 50%, var(--gold-light) 100%);
+  color: #07080b;
+  border: none;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.9rem 2.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.35);
+  transition: var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(212, 175, 55, 0.55);
+  filter: brightness(1.08);
+}
+
+.btn-secondary {
+  background: rgba(18, 22, 34, 0.8);
+  border: 1px solid var(--border-medium);
+  color: var(--text-parchment);
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.9rem 1.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  border-color: var(--gold-primary);
+  color: var(--gold-light);
+  background: rgba(30, 36, 52, 0.85);
+}
+
+/* Scroll İndikatörü */
+.hero-scroll-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: var(--text-muted);
+  transition: var(--transition-fast);
+}
+
+.hero-scroll-prompt:hover {
+  color: var(--gold-light);
+}
+
+.hero-scroll-prompt span {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.scroll-indicator-mouse {
+  width: 22px;
+  height: 36px;
+  border: 1px solid var(--border-medium);
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+}
+
+.scroll-wheel {
+  width: 3px;
+  height: 8px;
+  background-color: var(--gold-primary);
+  border-radius: 2px;
+  animation: scrollAnim 1.8s infinite cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@keyframes scrollAnim {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(14px); opacity: 0; }
+}
+
+/* ==========================================================================
+   HIZLI DÖNEM GEÇİŞ MODAL / MENÜSÜ (QUICK-JUMP DRAWER)
+   ========================================================================== */
+.quick-jump-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(7, 8, 11, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition-smooth);
+}
+
+.quick-jump-panel.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.quick-jump-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: 12px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
+}
+
+.quick-jump-header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quick-jump-header h2 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  letter-spacing: 0.1em;
+  color: var(--gold-light);
+}
+
+.quick-jump-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.quick-jump-close-btn:hover {
+  color: var(--text-pure);
+}
+
+.quick-jump-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.85rem;
+  padding: 1.75rem 2rem;
+  overflow-y: auto;
+}
+
+.quick-jump-item {
+  background: rgba(22, 28, 42, 0.6);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: var(--transition-fast);
+}
+
+.quick-jump-item:hover {
+  background: rgba(36, 46, 68, 0.8);
+  border-color: var(--gold-primary);
+  transform: translateY(-2px);
+}
+
+.quick-jump-number {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--gold-primary);
+  font-weight: 700;
+  min-width: 26px;
+}
+
+.quick-jump-text h4 {
+  font-family: var(--font-serif);
+  font-size: 0.92rem;
+  color: var(--text-parchment);
+  letter-spacing: 0.05em;
+}
+
+.quick-jump-text span {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  display: block;
+}
+
+/* ==========================================================================
+   FOOTER VE KÜNYE
+   ========================================================================== */
+.site-footer {
+  position: relative;
+  background: #06070a;
+  border-top: 1px solid var(--border-subtle);
+  padding: 4rem 2rem 3rem;
+  text-align: center;
+  z-index: 10;
+}
+
+.footer-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.footer-title {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  letter-spacing: 0.15em;
+  color: var(--gold-light);
+  margin-bottom: 0.75rem;
+}
+
+.footer-motto {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-bottom: 1.75rem;
+}
+
+.footer-meta {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  border-top: 1px solid rgba(212, 175, 55, 0.1);
+  padding-top: 1.5rem;
+}
+
+/* ==========================================================================
+   RESPONSIVE UYARLAMALAR
+   ========================================================================== */
+@media (max-width: 768px) {
+  .site-hud {
+    padding: 0 1.25rem;
+    height: 62px;
+  }
+
+  .hud-brand-text h1 {
+    font-size: 0.95rem;
+  }
+
+  .hud-brand-text span {
+    display: none;
+  }
+
+  .hero-cta-wrapper {
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .quick-jump-grid {
+    grid-template-columns: 1fr;
+    padding: 1.25rem;
+  }
+}

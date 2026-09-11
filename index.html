@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Türk Tarihi — Zamanın İzinde | Dijital Tarih Müzesi</title>
+  <meta name="description" content="Bozkırlardan Anadolu'ya, Anadolu'dan Cumhuriyet'e uzanan uzun yolculuk. Sinematik ve etkileşimli bir dijital Türk tarihi müzesi.">
+
+  <!-- Favicon / SVG Damga -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%230a0c12' stroke='%23d4af37' stroke-width='4'/><polygon points='50,15 57,43 50,50 43,43' fill='%23f3d778'/><circle cx='50' cy='50' r='6' fill='%23d4af37'/></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Stiller -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/timeline.css">
+  <link rel="stylesheet" href="css/map.css">
+  <link rel="stylesheet" href="css/modal.css">
+</head>
+<body>
+
+  <!-- Okuma İlerleme Çubuğu -->
+  <div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+  <!-- Parçacık Arka Plan Tuvali -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- ========================================================================
+       SABİT ÜST KONTROL PANELİ (HUD HEADER)
+       ======================================================================== -->
+  <header class="site-hud" id="site-hud">
+    <a href="#" class="hud-brand">
+      <div class="hud-logo-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <div class="hud-brand-text">
+        <h1>Türk Tarihi</h1>
+        <span>Zamanın İzinde</span>
+      </div>
+    </a>
+
+    <div class="hud-actions">
+      <button class="hud-btn" id="audio-toggle-btn" title="Ortam Sesini Aç / Kapat">
+        <svg id="audio-btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+        </svg>
+        <span id="audio-btn-text">Ambiyans Sesi</span>
+      </button>
+
+      <button class="hud-btn" id="quick-jump-toggle-btn" title="Dönemler Listesi">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="8" y1="6" x2="21" y2="6"/>
+          <line x1="8" y1="12" x2="21" y2="12"/>
+          <line x1="8" y1="18" x2="21" y2="18"/>
+          <line x1="3" y1="6" x2="3.01" y2="6"/>
+          <line x1="3" y1="12" x2="3.01" y2="12"/>
+          <line x1="3" y1="18" x2="3.01" y2="18"/>
+        </svg>
+        <span>Dönemler (18)</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       HERO BÖLÜMÜ (GİRİŞ VİTRİNİ)
+       ======================================================================== -->
+  <section class="hero-section" id="hero">
+    <div class="hero-aura"></div>
+
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      <span>Dijital Tarih Müzesi</span>
+    </div>
+
+    <h1 class="hero-title">TÜRK TARİHİ</h1>
+
+    <p class="hero-subtitle">
+      “Bozkırlardan Anadolu'ya, Anadolu'dan Cumhuriyet'e uzanan uzun yolculuk.”
+    </p>
+
+    <p class="hero-desc">
+      Onlarca küçük devletin birbirini kestiği yapay kronolojiler yerine; tarihin akışını, devlet aklını, 
+      kültürel sürekliliği ve dönüm noktalarını keşfedin.
+    </p>
+
+    <div class="hero-cta-wrapper">
+      <a href="#narrative-stream" class="btn-primary" id="hero-start-btn">
+        <span>Zamanın İzinde İlerle</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <polyline points="19 12 12 19 5 12"/>
+        </svg>
+      </a>
+      <button class="btn-secondary" onclick="document.getElementById('quick-jump-panel').classList.add('open')">
+        Dönemleri İncele
+      </button>
+    </div>
+
+    <a href="#narrative-stream" class="hero-scroll-prompt" id="hero-scroll-prompt">
+      <span>Zaman Akışına Gir</span>
+      <div class="scroll-indicator-mouse">
+        <div class="scroll-wheel"></div>
+      </div>
+    </a>
+  </section>
+
+  <!-- ========================================================================
+       ANA MÜZE SAHNESİ: İKİ SÜTUNLU SPLIT-STAGE
+       ======================================================================== -->
+  <main class="museum-stage" id="museum-stage">
+    <div class="split-stage-layout">
+
+      <!-- SOL TARAF: SABİT GÖRSEL & HARİTA SAHNESİ -->
+      <aside class="sticky-stage-col" id="sticky-stage-col">
+        <div class="stage-ambient-glow"></div>
+
+        <!-- Dönem Spot Işığı / Başlığı -->
+        <div class="stage-epoch-spotlight">
+          <div class="stage-epoch-badge" id="stage-epoch-badge">MÖ 8. YÜZYIL — MÖ 3. YÜZYIL</div>
+          <h2 class="stage-epoch-name" id="stage-epoch-name">Sakalar</h2>
+          <div class="stage-epoch-geography" id="stage-epoch-geography">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            Karadeniz Kuzeyi, Kafkaslar & Altay Bozkırları
+          </div>
+        </div>
+
+        <!-- Etkileşimli SVG Harita Çerçevesi -->
+        <div class="stage-map-wrapper">
+          <div class="map-container" id="historical-map-container">
+            <!-- Harita js/map.js tarafından oluşturulur -->
+          </div>
+        </div>
+
+        <!-- Sahne Alt Bilgi Şeridi -->
+        <div class="stage-footer-info">
+          <div class="stage-center-badge">
+            Merkez: <strong id="stage-center-name">Ötüken ve Çu Vadisi</strong>
+          </div>
+          <div class="stage-era-counter" id="stage-era-counter">1 / 18</div>
+        </div>
+      </aside>
+
+      <!-- SAĞ TARAF: TARİHSEL ANLATI AKIŞI -->
+      <section class="narrative-stream-col" id="narrative-stream">
+        <!-- 18 Dönem Kartı js/timeline.js tarafından HISTORICAL_EPOCHS verisiyle dinamik olarak basılır -->
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       CANLI ZAMAN SCRUBBER'I (SAĞ KENARDA SABİT)
+       ======================================================================== -->
+  <aside class="timeline-scrubber" id="timeline-scrubber" aria-label="Zaman Çubuğu">
+    <!-- Düğümler js/timeline.js tarafından oluşturulur -->
+  </aside>
+
+  <!-- ========================================================================
+       HIZLI DÖNEM SEÇİM PANELİ (MODAL)
+       ======================================================================== -->
+  <div class="quick-jump-panel" id="quick-jump-panel">
+    <div class="quick-jump-box">
+      <div class="quick-jump-header">
+        <h2>18 Büyük Tarihsel Dönüm Noktası</h2>
+        <button class="quick-jump-close-btn" id="quick-jump-close-btn" title="Kapat">&times;</button>
+      </div>
+      <div class="quick-jump-grid" id="quick-jump-grid">
+        <!-- 18 Dönem kutucukları js/timeline.js tarafından basılır -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MÜZE ARŞİV ÇEKMECESİ (DRAWER / SIDE PANEL & YAN DALLAR)
+       ======================================================================== -->
+  <div class="archive-drawer-overlay" id="archive-drawer-overlay">
+    <div class="archive-drawer-panel" id="archive-drawer-panel" role="dialog" aria-modal="true">
+      
+      <!-- Çekmece Başlığı -->
+      <header class="drawer-header">
+        <div class="drawer-top-row">
+          <span class="drawer-period-tag" id="drawer-period-tag">MÖ 8. YÜZYIL</span>
+          <button class="drawer-close-btn" id="drawer-close-btn" title="Kapat (ESC)">&times;</button>
+        </div>
+        <h2 class="drawer-title" id="drawer-title">Dönem Başlığı</h2>
+        <p class="drawer-subtitle" id="drawer-subtitle">Alt başlık veya dönem mottosu</p>
+      </header>
+
+      <!-- Sekme Menüsü -->
+      <nav class="drawer-tabs-bar">
+        <button class="drawer-tab-btn active" data-tab="subbranches">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Siyasi Kollar & Yan Dallar
+        </button>
+        <button class="drawer-tab-btn" data-tab="rulers">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Hükümdarlar & Şahsiyetler
+        </button>
+        <button class="drawer-tab-btn" data-tab="artifacts">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Maddi Kültür & Eserler
+        </button>
+        <button class="drawer-tab-btn" data-tab="continuity">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Süreklilik & Kronoloji
+        </button>
+      </nav>
+
+      <!-- Çekmece İçerik Alanı -->
+      <div class="drawer-content-scrollable">
+        <div class="drawer-tab-pane active" id="pane-subbranches"></div>
+        <div class="drawer-tab-pane" id="pane-rulers"></div>
+        <div class="drawer-tab-pane" id="pane-artifacts"></div>
+        <div class="drawer-tab-pane" id="pane-continuity"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       ALT BİLGİ / KÜNYE
+       ======================================================================== -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <h3 class="footer-title">TÜRK TARİHİ — ZAMANIN İZİNDE</h3>
+      <p class="footer-motto">
+        “Geçmişini bilmeyen, geleceğini kuramaz.”
+      </p>
+      <div class="footer-meta">
+        Bozkırlardan Anadolu'ya, Anadolu'dan Cumhuriyet'e &bull; Dijital Tarih Müzesi &bull; 18 Büyük Tarihsel Dönüm Noktası
+      </div>
+    </div>
+  </footer>
+
+  <!-- Betikler (Modüler Mimari) -->
+  <script src="js/data.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/modal.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/timeline.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
