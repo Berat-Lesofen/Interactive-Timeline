@@ -6,8 +6,20 @@
   <title>Türk Tarihi — Zamanın İzinde | Dijital Tarih Müzesi</title>
   <meta name="description" content="Bozkırlardan Anadolu'ya, Anadolu'dan Cumhuriyet'e uzanan uzun yolculuk. Sinematik ve etkileşimli bir dijital Türk tarihi müzesi.">
 
-  <!-- Favicon / SVG Damga -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%230a0c12' stroke='%23d4af37' stroke-width='4'/><polygon points='50,15 57,43 50,50 43,43' fill='%23f3d778'/><circle cx='50' cy='50' r='6' fill='%23d4af37'/></svg>">
+  <!-- Favicon & Touch Icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" href="assets/icons/brand-symbol.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+
+  <!-- Open Graph / Sosyal Medya Önizleme -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Türk Tarihi — Zamanın İzinde | Dijital Tarih Müzesi">
+  <meta property="og:description" content="“Geçmiş, sadece hatırlanmaz; yol gösterir.” Bozkırlardan Anadolu'ya, Anadolu'dan Cumhuriyet'e uzanan uzun yolculuk.">
+  <meta property="og:image" content="assets/images/og-preview.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Türk Tarihi — Zamanın İzinde">
+  <meta name="twitter:description" content="“Geçmiş, sadece hatırlanmaz; yol gösterir.” Dijital Tarih Müzesi.">
+  <meta name="twitter:image" content="assets/images/og-preview.jpg">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,10 +46,7 @@
   <header class="site-hud" id="site-hud">
     <a href="#" class="hud-brand">
       <div class="hud-logo-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/>
-          <polyline points="12 6 12 12 16 14"/>
-        </svg>
+        <img src="assets/icons/brand-symbol.png" alt="Türk Tarihi Mührü" class="hud-brand-img">
       </div>
       <div class="hud-brand-text">
         <h1>Türk Tarihi</h1>
@@ -74,6 +83,9 @@
        ======================================================================== -->
   <section class="hero-section" id="hero">
     <div class="hero-aura"></div>
+    <div class="hero-seal-watermark" aria-hidden="true">
+      <img src="assets/icons/brand-symbol.png" alt="" class="hero-seal-img">
+    </div>
 
     <div class="hero-badge">
       <span class="hero-badge-dot"></span>
@@ -102,6 +114,12 @@
       <button class="btn-secondary" onclick="document.getElementById('quick-jump-panel').classList.add('open')">
         Dönemleri İncele
       </button>
+    </div>
+
+    <div class="hero-quote">
+      <span class="hero-quote-line"></span>
+      <p class="hero-quote-text">“Geçmiş, sadece hatırlanmaz; yol gösterir.”</p>
+      <span class="hero-quote-line"></span>
     </div>
 
     <a href="#narrative-stream" class="hero-scroll-prompt" id="hero-scroll-prompt">
@@ -230,9 +248,12 @@
        ======================================================================== -->
   <footer class="site-footer">
     <div class="footer-content">
+      <div class="footer-seal" aria-hidden="true">
+        <img src="assets/icons/brand-symbol.png" alt="Türk Tarihi Mührü" class="footer-seal-img">
+      </div>
       <h3 class="footer-title">TÜRK TARİHİ — ZAMANIN İZİNDE</h3>
       <p class="footer-motto">
-        “Geçmişini bilmeyen, geleceğini kuramaz.”
+        “Geçmiş, sadece hatırlanmaz; yol gösterir.”
       </p>
       <div class="footer-meta">
         Bozkırlardan Anadolu'ya, Anadolu'dan Cumhuriyet'e &bull; Dijital Tarih Müzesi &bull; 18 Büyük Tarihsel Dönüm Noktası
