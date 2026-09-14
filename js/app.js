@@ -22,9 +22,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const quickJumpBtn = document.getElementById("quick-jump-toggle-btn");
   const quickJumpPanel = document.getElementById("quick-jump-panel");
   const quickJumpClose = document.getElementById("quick-jump-close-btn");
+  const heroQuickJumpBtn = document.getElementById("hero-quick-jump-btn");
 
   if (quickJumpBtn && quickJumpPanel) {
     quickJumpBtn.addEventListener("click", () => {
+      quickJumpPanel.classList.add("open");
+    });
+  }
+
+  if (heroQuickJumpBtn && quickJumpPanel) {
+    heroQuickJumpBtn.addEventListener("click", () => {
       quickJumpPanel.classList.add("open");
     });
   }

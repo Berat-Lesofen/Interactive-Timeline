@@ -6,6 +6,11 @@
   <title>Türk Tarihi — Zamanın İzinde | Dijital Tarih Müzesi</title>
   <meta name="description" content="Bozkırlardan Anadolu'ya, Anadolu'dan Cumhuriyet'e uzanan uzun yolculuk. Sinematik ve etkileşimli bir dijital Türk tarihi müzesi.">
 
+  <!-- Güvenlik Başlıkları & Politikaları -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
   <!-- Favicon & Touch Icons -->
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
   <link rel="icon" type="image/png" href="assets/icons/brand-symbol.png">
@@ -111,7 +116,7 @@
           <polyline points="19 12 12 19 5 12"/>
         </svg>
       </a>
-      <button class="btn-secondary" onclick="document.getElementById('quick-jump-panel').classList.add('open')">
+      <button class="btn-secondary" id="hero-quick-jump-btn">
         Dönemleri İncele
       </button>
     </div>
